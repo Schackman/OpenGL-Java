@@ -5,12 +5,13 @@ package com.schackteleers.projectrpg.engine.core;
  * @since 21/04/2017
  */
 
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 public class Engine implements Runnable {
     private final Thread gameLoopThread;
 
-    public static final int TARGET_FPS = 0;
+    public static final int TARGET_FPS = 60;
 
     public static final int TARGET_UPS = 30;
 
@@ -23,7 +24,7 @@ public class Engine implements Runnable {
     public Engine(IGameLogic gameLogic) {
         this.gameLoopThread = new Thread(this, "GAME_LOOP_THREAD");
         this.timer = new Timer();
-        this.window = new Window("RPG", 1280, 720, true);
+        this.window = new Window("RPG", 1280, 720, false);
         this.gameLogic = gameLogic;
     }
 
@@ -98,11 +99,13 @@ public class Engine implements Runnable {
     }
 
     private void input() {
+        glfwPollEvents();
         gameLogic.input(window);
     }
 
     private void update(double interval) {
-
+        window.update();
+        gameLogic.update(interval);
     }
 
     private void render() {
@@ -110,6 +113,10 @@ public class Engine implements Runnable {
     }
 
     private void sync() {
-
+        float loopSlot = 1f / TARGET_FPS;
+        double endTime = timer.getLastLoopTime() + loopSlot;
+        while (timer.getTime() < endTime) {
+            Thread.yield();
+        }
     }
 }

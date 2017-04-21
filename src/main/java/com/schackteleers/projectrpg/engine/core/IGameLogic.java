@@ -10,7 +10,7 @@ public interface IGameLogic {
 
     void input(Window window);
 
-    void update(float interval);
+    void update(double interval);
 
     void render(Window window);
 

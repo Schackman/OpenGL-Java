@@ -162,7 +162,6 @@ public class Window {
 
     public void update() {
         glfwSwapBuffers(windowHandle);
-        glfwPollEvents();
     }
 
     public long getWindowHandle() {
