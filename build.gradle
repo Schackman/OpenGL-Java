@@ -1,6 +1,8 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
+mainClassName = "com.schackteleers.projectrpg.game.Main"
+
 import org.gradle.internal.os.OperatingSystem
 
 switch ( OperatingSystem.current() ) {
