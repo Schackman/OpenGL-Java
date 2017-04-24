@@ -5,15 +5,16 @@ package com.schackteleers.projectrpg.engine.core;
  * @since 21/04/2017
  */
 
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
-import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import org.lwjgl.glfw.GLFWMonitorCallback;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 public class Engine implements Runnable {
     private final Thread gameLoopThread;
 
-    public static final int TARGET_FPS = 60;
+    private static int TARGET_FPS = 60;
 
-    public static final int TARGET_UPS = 30;
+    private static final int TARGET_UPS = 20;
 
     private final Window window;
 
@@ -58,18 +59,18 @@ public class Engine implements Runnable {
 
     private void init() throws Exception {
         window.init();
+        TARGET_FPS = glfwGetVideoMode(glfwGetPrimaryMonitor()).refreshRate();
+        System.out.println(TARGET_FPS);
         timer.init();
         gameLogic.init(window);
     }
 
     private void gameLoop() {
-        double elapsedTime;
         double counter = 0d;
         double interval = 1d / TARGET_UPS;
 
         while (!window.windowShouldClose()) {
-            elapsedTime = timer.getElapsedTime();
-            counter += elapsedTime;
+            counter += timer.getElapsedTime();
 
             input();
 
@@ -109,7 +110,7 @@ public class Engine implements Runnable {
     }
 
     private void render() {
-
+        gameLogic.render(window);
     }
 
     private void sync() {
