@@ -44,7 +44,7 @@ public class Window {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
-        System.out.println(glfwGetVersionString());
+        System.out.println("GLFW Version: " + glfwGetVersionString());
 
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE); // the window will be resizable
@@ -96,26 +96,14 @@ public class Window {
 
         // Make the window visible
         glfwShowWindow(windowHandle);
-
-        GL.createCapabilities();
-
-        // Set the clear color
-        setClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-
     }
 
-    public void setClearColor(float r, float g, float b, float alpha) {
-        glClearColor(r, g, b, alpha);
-    }
 
     public boolean isKeyPressed(int keyCode) {
         return glfwGetKey(windowHandle, keyCode) == GLFW_PRESS;
     }
 
-    public boolean isKeyReleased(int keyCode){
+    public boolean isKeyReleased(int keyCode) {
         return glfwGetKey(windowHandle, keyCode) == GLFW_RELEASE;
     }
 
@@ -164,7 +152,7 @@ public class Window {
         return windowHandle;
     }
 
-    void cleanUp(){
+    void cleanUp() {
         glfwDestroyWindow(windowHandle);
     }
 }

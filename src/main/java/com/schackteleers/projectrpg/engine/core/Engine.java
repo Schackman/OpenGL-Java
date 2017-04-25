@@ -6,6 +6,7 @@ package com.schackteleers.projectrpg.engine.core;
  */
 
 import org.lwjgl.glfw.GLFWMonitorCallback;
+import org.lwjgl.system.Configuration;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -49,7 +50,8 @@ public class Engine implements Runnable {
      */
     public void start() {
         String osName = System.getProperty("os.name");
-        System.out.println(osName);
+        System.out.println("OS: " + osName +
+                "\nOS Version: " + System.getProperty("os.version"));
         if (osName.contains("Mac")) {
             gameLoopThread.run();
         } else {
@@ -60,7 +62,7 @@ public class Engine implements Runnable {
     private void init() throws Exception {
         window.init();
         TARGET_FPS = glfwGetVideoMode(glfwGetPrimaryMonitor()).refreshRate();
-        System.out.println(TARGET_FPS);
+        System.out.println("Monitor Refresh Rate: " + TARGET_FPS + "Hz");
         timer.init();
         gameLogic.init(window);
     }
@@ -105,12 +107,12 @@ public class Engine implements Runnable {
     }
 
     private void update(double interval) {
-        window.update();
         gameLogic.update(interval);
     }
 
     private void render() {
         gameLogic.render(window);
+        window.update();
     }
 
     private void sync() {
