@@ -26,7 +26,7 @@ public class Engine implements Runnable {
     public Engine(IGameLogic gameLogic) {
         this.gameLoopThread = new Thread(this, "GAME_LOOP_THREAD");
         this.timer = new Timer();
-        this.window = new Window("RPG", 1280, 720, false);
+        this.window = new Window("ARCHON RPG", 1280, 720, false);
         this.gameLogic = gameLogic;
     }
 
