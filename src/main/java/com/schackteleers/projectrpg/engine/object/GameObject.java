@@ -13,6 +13,10 @@ public class GameObject {
     private Vector2f rotation;
     private float scale;
 
+    public GameObject(){
+        this(new Mesh2D());
+    }
+
     public GameObject(Mesh2D mesh) {
         this.mesh = mesh;
         this.position = new Vector2f();
