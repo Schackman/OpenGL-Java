@@ -31,8 +31,8 @@ public class Camera {
         this.rotation = rotation;
     }
 
-    public void translate(float x, float y, float z) {
-        this.position.add(x, y, z);
+    public void translate(float x, float y) {
+        this.position.add(x, y, 0);
     }
 
     public void rotate(float rotation){
