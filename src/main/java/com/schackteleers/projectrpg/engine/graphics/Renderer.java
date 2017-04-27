@@ -1,5 +1,6 @@
 package com.schackteleers.projectrpg.engine.graphics;
 
+import com.schackteleers.projectrpg.engine.core.Window;
 import com.schackteleers.projectrpg.engine.fileio.FileIO;
 import com.schackteleers.projectrpg.engine.object.GameObject;
 import org.lwjgl.opengl.GL;
@@ -33,8 +34,13 @@ public class Renderer {
 
     }
 
-    public void render(List<GameObject> gameObjectList) {
+    public void render(Window window, List<GameObject> gameObjectList) {
         glClear(GL_COLOR_BUFFER_BIT); //Clear the frame buffer so a new frame can be rendered
+
+        if (window.isResized()) {
+            glViewport(0, 0, window.getWidth(), window.getHeight());
+            window.setResized(false);
+        }
 
         shaderProgram.bind(); // Tell GPU to use shader program
 

@@ -41,7 +41,7 @@ public class Game implements IGameLogic {
 
     @Override
     public void render(Window window) {
-        renderer.render(gameObjectList);
+        renderer.render(window, gameObjectList);
     }
 
     @Override
