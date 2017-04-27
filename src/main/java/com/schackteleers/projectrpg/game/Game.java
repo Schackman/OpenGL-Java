@@ -6,10 +6,11 @@ import com.schackteleers.projectrpg.engine.graphics.Camera;
 import com.schackteleers.projectrpg.engine.graphics.Renderer;
 import com.schackteleers.projectrpg.engine.input.Keyboard;
 import com.schackteleers.projectrpg.engine.object.GameObject;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 /**
  * @author Stijn Schack
@@ -25,6 +26,7 @@ public class Game implements IGameLogic {
 
     private float moveCameraX;
     private float moveCameraY;
+    private float rotateCamera;
 
     Game() {
         this.keyboard = new Keyboard();
@@ -44,18 +46,25 @@ public class Game implements IGameLogic {
 
     @Override
     public void input(Window window) {
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_LEFT)) moveCameraX = -0.1f;
-        else if (keyboard.isKeyPressed(GLFW.GLFW_KEY_RIGHT)) moveCameraX = +0.1f;
+        if (keyboard.isKeyPressed(GLFW_KEY_ESCAPE))glfwSetWindowShouldClose(window.getWindowHandle(), true);
+
+        if (keyboard.isKeyPressed(GLFW_KEY_LEFT)) moveCameraX = -0.1f;
+        else if (keyboard.isKeyPressed(GLFW_KEY_RIGHT)) moveCameraX = +0.1f;
         else moveCameraX = 0;
 
-        if (keyboard.isKeyPressed(GLFW.GLFW_KEY_UP)) moveCameraY = 0.1f;
-        else if (keyboard.isKeyPressed(GLFW.GLFW_KEY_DOWN)) moveCameraY = -0.1f;
+        if (keyboard.isKeyPressed(GLFW_KEY_UP)) moveCameraY = 0.1f;
+        else if (keyboard.isKeyPressed(GLFW_KEY_DOWN)) moveCameraY = -0.1f;
         else moveCameraY = 0;
+
+        if (keyboard.isKeyPressed(GLFW_KEY_Q)) rotateCamera = -0.5f*10;
+        else if (keyboard.isKeyPressed(GLFW_KEY_E)) rotateCamera = +0.5f*10;
+        else rotateCamera = 0;
     }
 
     @Override
     public void update(double interval) {
         camera.translate(moveCameraX, moveCameraY);
+        camera.rotate(rotateCamera);
     }
 
     @Override
