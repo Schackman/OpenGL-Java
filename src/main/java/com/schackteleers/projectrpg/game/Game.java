@@ -30,6 +30,7 @@ public class Game implements IGameLogic {
         renderer.init(window);
 
         gameObjectList.add(new GameObject());
+        gameObjectList.add(new GameObject().setPosition(1, 1));
     }
 
     @Override

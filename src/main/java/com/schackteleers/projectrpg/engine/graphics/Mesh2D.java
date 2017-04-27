@@ -30,10 +30,10 @@ public class Mesh2D {
     private final int vertexCount;
 
     private static float[] vertices = {
-            -1.0f, 1.0f, // Top Left
-            -1.0f, -1.0f, // Bottom Left
-            1.0f, 1.0f, // Top Right
-            1.0f, -1.0f // Bottom Right
+            -0.5f, 0.5f, // Top Left
+            -0.5f, -0.5f, // Bottom Left
+            0.5f, 0.5f, // Top Right
+            0.5f, -0.5f // Bottom Right
     };
 
     private static float[] colors = {
