@@ -11,20 +11,16 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl:3.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-glfw:3.1.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.1.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl:natives-windows:3.1.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-lmdb:3.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-nfd:3.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-nuklear:3.1.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-glfw:natives-windows:3.1.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl:natives-windows:3.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-openal:3.1.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-jemalloc:natives-windows:3.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-opengl:3.1.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-glfw:natives-windows:3.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-par:3.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-stb:3.1.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-lmdb:natives-windows:3.1.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.joml:joml:1.9.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-nfd:natives-windows:3.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.joml:joml:1.9.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-nuklear:natives-windows:3.1.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-openal:natives-windows:3.1.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-opengl:natives-windows:3.1.1" level="project" />
