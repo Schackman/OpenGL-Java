@@ -2,6 +2,7 @@ package com.schackteleers.projectrpg.engine.object;
 
 import com.schackteleers.projectrpg.engine.graphics.Mesh2D;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 /**
  * Contains a Mesh and transformation(position, rotation, scale)
@@ -11,8 +12,8 @@ import org.joml.Vector2f;
  */
 public class GameObject {
     private Mesh2D mesh;
-    private Vector2f position;
-    private Vector2f rotation;
+    private Vector3f position;
+    private Vector3f rotation;
     private float scale;
 
     public GameObject(){
@@ -21,18 +22,18 @@ public class GameObject {
 
     public GameObject(Mesh2D mesh) {
         this.mesh = mesh;
-        this.position = new Vector2f();
-        this.rotation = new Vector2f();
+        this.position = new Vector3f();
+        this.rotation = new Vector3f();
         this.scale = 1;
     }
 
     public GameObject setPosition(float x, float y) {
-        this.position.set(x, y);
+        this.position.set(x, y, 0);
         return this;
     }
 
-    public GameObject setRotation(float x, float y) {
-        this.rotation.set(x, y);
+    public GameObject setRotation(float x, float y, float z) {
+        this.rotation.set(x, y, z);
         return this;
     }
 
@@ -50,11 +51,11 @@ public class GameObject {
         return mesh;
     }
 
-    public Vector2f getPosition() {
+    public Vector3f getPosition() {
         return position;
     }
 
-    public Vector2f getRotation() {
+    public Vector3f getRotation() {
         return rotation;
     }
 

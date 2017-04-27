@@ -2,6 +2,7 @@ package com.schackteleers.projectrpg.game;
 
 import com.schackteleers.projectrpg.engine.core.IGameLogic;
 import com.schackteleers.projectrpg.engine.core.Window;
+import com.schackteleers.projectrpg.engine.graphics.Camera;
 import com.schackteleers.projectrpg.engine.graphics.Renderer;
 import com.schackteleers.projectrpg.engine.object.GameObject;
 
@@ -15,16 +16,18 @@ import java.util.List;
 public class Game implements IGameLogic {
 
     private final Renderer renderer;
+    private Camera camera;
     private List<GameObject> gameObjectList;
 
     Game() {
         this.renderer = new Renderer();
+        this.camera = new Camera();
         this.gameObjectList = new ArrayList<>();
     }
 
     @Override
     public void init(Window window) throws Exception {
-        renderer.init();
+        renderer.init(window);
 
         gameObjectList.add(new GameObject());
     }
@@ -41,7 +44,7 @@ public class Game implements IGameLogic {
 
     @Override
     public void render(Window window) {
-        renderer.render(window, gameObjectList);
+        renderer.render(window, camera, gameObjectList);
     }
 
     @Override

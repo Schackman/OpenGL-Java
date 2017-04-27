@@ -1,5 +1,12 @@
 package com.schackteleers.projectrpg.engine.graphics;
 
+import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
+
+import java.nio.FloatBuffer;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.lwjgl.opengl.GL20.*;
 
 /**
@@ -11,7 +18,10 @@ class ShaderProgram {
     private int vertexShaderId;
     private int fragmentShaderId;
 
+    private final Map<String, Integer> uniforms;
+
     ShaderProgram() throws Exception {
+        this.uniforms = new HashMap<>();
         programId = glCreateProgram();
         if (programId == 0) {
             throw new Exception("Could not Create Shader");
@@ -64,15 +74,29 @@ class ShaderProgram {
         }
     }
 
-    void bind(){
+    void bind() {
         glUseProgram(programId);
     }
 
-    void unbind(){
+    void unbind() {
         glUseProgram(0);
     }
 
-    void cleanUp(){
+    void createUniform(String uniformName) throws Exception {
+        int uniformLocation = glGetUniformLocation(programId, uniformName);
+        if (uniformLocation < 0) {
+            throw new Exception("Could not find uniform: " + uniformName);
+        }
+        uniforms.put(uniformName, uniformLocation);
+    }
+
+    void setUniform(String uniformName, Matrix4f value) {
+        FloatBuffer fb = BufferUtils.createFloatBuffer(16);
+        value.get(fb);
+        glUniformMatrix4fv(uniforms.get(uniformName), false, fb);
+    }
+
+    void cleanUp() {
         unbind();
         if (programId != 0) {
             glDeleteProgram(programId);
