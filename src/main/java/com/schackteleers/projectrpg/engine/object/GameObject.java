@@ -4,6 +4,8 @@ import com.schackteleers.projectrpg.engine.graphics.Mesh2D;
 import org.joml.Vector2f;
 
 /**
+ * Contains a Mesh and transformation(position, rotation, scale)
+ *
  * @author Stijn Schack
  * @since 25/04/2017
  */
@@ -58,5 +60,9 @@ public class GameObject {
 
     public float getScale() {
         return scale;
+    }
+
+    public void cleanUp(){
+        mesh.cleanUp();
     }
 }

@@ -46,6 +46,10 @@ public class Game implements IGameLogic {
 
     @Override
     public void cleanup() {
+        for (GameObject gameObject :
+                gameObjectList) {
+            gameObject.cleanUp();
+        }
         renderer.cleanUp();
     }
 }

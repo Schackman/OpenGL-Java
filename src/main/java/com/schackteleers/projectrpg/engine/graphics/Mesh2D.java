@@ -1,8 +1,6 @@
 package com.schackteleers.projectrpg.engine.graphics;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL15;
-import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -10,14 +8,15 @@ import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
-import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.system.MemoryUtil.memAllocFloat;
+import static org.lwjgl.system.MemoryUtil.memFree;
 
 /**
+ * Basic 2D Mesh class.
+ * contains core data and functionality to render any 2D shape from triangles
+ *
  * @author Stijn Schack
  * @since 25/04/2017
  */
@@ -41,6 +40,9 @@ public class Mesh2D {
 
     private static int[] indices = {0, 1, 2, 2, 1, 3};
 
+    /**
+     * Creates a basic rectangle
+     */
     public Mesh2D() {
         this(vertices, texCoords, indices);
     }
@@ -56,7 +58,7 @@ public class Mesh2D {
         //Vertices VBO
         int vboId = GL15.glGenBuffers();
         vboIdList.add(vboId);
-        FloatBuffer verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
+        FloatBuffer verticesBuffer = memAllocFloat(vertices.length);
         verticesBuffer.put(vertices).flip();
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
@@ -66,12 +68,11 @@ public class Mesh2D {
 
         glBindVertexArray(0);
 
-        if (verticesBuffer!=null){
-            MemoryUtil.memFree(verticesBuffer);
-        }
+        memFree(verticesBuffer);
+
     }
 
-    public void render() {
+    void render() {
         // Bind VAO
         glBindVertexArray(this.vaoId);
         glEnableVertexAttribArray(VBO_POSITIONS);

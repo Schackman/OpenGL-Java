@@ -6,7 +6,7 @@ import static org.lwjgl.opengl.GL20.*;
  * @author Stijn Schack
  * @since 27/04/2017
  */
-public class ShaderProgram {
+class ShaderProgram {
     private final int programId;
     private int vertexShaderId;
     private int fragmentShaderId;
@@ -72,7 +72,7 @@ public class ShaderProgram {
         glUseProgram(0);
     }
 
-    public void cleanUp(){
+    void cleanUp(){
         unbind();
         if (programId != 0) {
             glDeleteProgram(programId);

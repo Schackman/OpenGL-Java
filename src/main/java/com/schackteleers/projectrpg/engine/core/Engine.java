@@ -5,9 +5,6 @@ package com.schackteleers.projectrpg.engine.core;
  * @since 21/04/2017
  */
 
-import org.lwjgl.glfw.GLFWMonitorCallback;
-import org.lwjgl.system.Configuration;
-
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Engine implements Runnable {
@@ -61,7 +58,7 @@ public class Engine implements Runnable {
 
     private void init() throws Exception {
         window.init();
-        TARGET_FPS = glfwGetVideoMode(glfwGetPrimaryMonitor()).refreshRate();
+        TARGET_FPS = glfwGetVideoMode(glfwGetPrimaryMonitor()).refreshRate(); // Set TARGET_FPS to monitor refresh rate
         System.out.println("Monitor Refresh Rate: " + TARGET_FPS + "Hz");
         timer.init();
         gameLogic.init(window);
@@ -76,6 +73,7 @@ public class Engine implements Runnable {
 
             input();
 
+            // this loop makes sure the game stays at the TARGET_UPS
             while (counter >= interval) {
                 update(interval);
                 counter -= interval;
@@ -106,15 +104,26 @@ public class Engine implements Runnable {
         gameLogic.input(window);
     }
 
+    /**
+     * updates the state of the game
+     *
+     * @param interval between updates in seconds
+     */
     private void update(double interval) {
         gameLogic.update(interval);
     }
 
+    /**
+     * renders the game to the window
+     */
     private void render() {
         gameLogic.render(window);
         window.update();
     }
 
+    /**
+     * Yields the thread to limit fps to TARGET_FPS. This way, no unnecessary resources are used
+     */
     private void sync() {
         float loopSlot = 1f / TARGET_FPS;
         double endTime = timer.getLastLoopTime() + loopSlot;
