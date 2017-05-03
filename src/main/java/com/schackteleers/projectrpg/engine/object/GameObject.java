@@ -1,8 +1,11 @@
 package com.schackteleers.projectrpg.engine.object;
 
 import com.schackteleers.projectrpg.engine.graphics.Mesh2D;
+import com.schackteleers.projectrpg.engine.graphics.Texture;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+
+import java.io.IOException;
 
 /**
  * Contains a Mesh and transformation(position, rotation, scale)
@@ -16,7 +19,7 @@ public class GameObject {
     private Vector3f rotation;
     private float scale;
 
-    public GameObject(){
+    public GameObject() throws IOException {
         this(new Mesh2D());
     }
 
