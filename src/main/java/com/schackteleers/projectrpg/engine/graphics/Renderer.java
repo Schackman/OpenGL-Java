@@ -5,6 +5,7 @@ import com.schackteleers.projectrpg.engine.fileio.FileIO;
 import com.schackteleers.projectrpg.engine.object.GameObject;
 import com.schackteleers.projectrpg.engine.object.Transformation;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 
 import java.util.List;
@@ -19,12 +20,15 @@ public class Renderer {
     private static final String UNIFORM_PROJECTION_MATRIX = "projectionmatrix";
     private static final String UNIFORM_MODEL_VIEW_MATRIX= "modelviewmatrix";
     private static final String UNIFORM_TEXTURE_SAMPLER = "texture_sampler";
+    private static final String UNIFORM_AMBIENT_LIGHT = "ambient_light";
 
     private ShaderProgram shaderProgram;
     private Transformation transformation;
+    private Vector3f ambientLight;
 
     public Renderer() {
         this.transformation = new Transformation();
+        this.ambientLight = new Vector3f(.5f, .5f, .5f);
     }
 
     public void init(Window window) throws Exception {
@@ -43,6 +47,7 @@ public class Renderer {
         shaderProgram.createUniform(UNIFORM_PROJECTION_MATRIX);
         shaderProgram.createUniform(UNIFORM_MODEL_VIEW_MATRIX);
         shaderProgram.createUniform(UNIFORM_TEXTURE_SAMPLER);
+        shaderProgram.createUniform(UNIFORM_AMBIENT_LIGHT);
     }
 
     public void render(Window window, Camera camera, List<GameObject> gameObjectList) {
@@ -57,6 +62,7 @@ public class Renderer {
 
         shaderProgram.setUniform(UNIFORM_PROJECTION_MATRIX, transformation.getProjectionMatrix(window.getWidth(), window.getHeight())); // Update projection matrix
         shaderProgram.setUniform(UNIFORM_TEXTURE_SAMPLER, 0);
+        shaderProgram.setUniform(UNIFORM_AMBIENT_LIGHT, ambientLight);
 
         Matrix4f viewMatrix = transformation.getViewMatrix(camera); // Update view matrix
 
@@ -74,5 +80,13 @@ public class Renderer {
     public void cleanUp() {
         shaderProgram.cleanUp();
         GL.destroy();
+    }
+
+    public void setAmbientLight(Vector3f ambientLight) {
+        this.ambientLight = ambientLight;
+    }
+
+    public Vector3f getAmbientLight() {
+        return ambientLight;
     }
 }
