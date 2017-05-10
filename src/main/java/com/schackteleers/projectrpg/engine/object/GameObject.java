@@ -1,8 +1,6 @@
 package com.schackteleers.projectrpg.engine.object;
 
 import com.schackteleers.projectrpg.engine.graphics.Mesh2D;
-import com.schackteleers.projectrpg.engine.graphics.Texture;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.io.IOException;

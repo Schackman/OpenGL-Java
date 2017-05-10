@@ -3,9 +3,7 @@ package com.schackteleers.projectrpg.engine.input;
 import com.schackteleers.projectrpg.engine.core.Window;
 import org.lwjgl.glfw.GLFWKeyCallback;
 
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.glfwGetKey;
-import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.*;
 
 /**
  * @author Stijn Schack

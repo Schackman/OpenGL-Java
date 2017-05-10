@@ -6,7 +6,6 @@ import com.schackteleers.projectrpg.engine.graphics.Camera;
 import com.schackteleers.projectrpg.engine.graphics.Renderer;
 import com.schackteleers.projectrpg.engine.input.Keyboard;
 import com.schackteleers.projectrpg.engine.object.GameObject;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
