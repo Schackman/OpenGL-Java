@@ -96,6 +96,10 @@ class ShaderProgram {
         glUniformMatrix4fv(uniforms.get(uniformName), false, fb);
     }
 
+    void setUniform(String uniformName, int value){
+        glUniform1i(uniforms.get(uniformName), value);
+    }
+
     void cleanUp() {
         unbind();
         if (programId != 0) {

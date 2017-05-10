@@ -16,6 +16,10 @@ import static org.lwjgl.opengl.GL11.*;
  * @since 22/04/2017
  */
 public class Renderer {
+    private static final String UNIFORM_PROJECTION_MATRIX = "projectionmatrix";
+    private static final String UNIFORM_MODEL_VIEW_MATRIX= "modelviewmatrix";
+    private static final String UNIFORM_TEXTURE_SAMPLER = "texture_sampler";
+
     private ShaderProgram shaderProgram;
     private Transformation transformation;
 
@@ -36,8 +40,9 @@ public class Renderer {
         shaderProgram.link();
 
         // Create Uniforms
-        shaderProgram.createUniform("projectionmatrix");
-        shaderProgram.createUniform("modelviewmatrix");
+        shaderProgram.createUniform(UNIFORM_PROJECTION_MATRIX);
+        shaderProgram.createUniform(UNIFORM_MODEL_VIEW_MATRIX);
+        shaderProgram.createUniform(UNIFORM_TEXTURE_SAMPLER);
     }
 
     public void render(Window window, Camera camera, List<GameObject> gameObjectList) {
@@ -50,7 +55,8 @@ public class Renderer {
 
         shaderProgram.bind(); // Tell GPU to use shader program
 
-        shaderProgram.setUniform("projectionmatrix", transformation.getProjectionMatrix(window.getWidth(), window.getHeight())); // Update projection matrix
+        shaderProgram.setUniform(UNIFORM_PROJECTION_MATRIX, transformation.getProjectionMatrix(window.getWidth(), window.getHeight())); // Update projection matrix
+        shaderProgram.setUniform(UNIFORM_TEXTURE_SAMPLER, 0);
 
         Matrix4f viewMatrix = transformation.getViewMatrix(camera); // Update view matrix
 
@@ -58,7 +64,7 @@ public class Renderer {
         for (GameObject gameObject : gameObjectList) {
             Mesh2D mesh = gameObject.getMesh();
             // set modelview matrix for this object
-            shaderProgram.setUniform("modelviewmatrix", transformation.getModelViewMatrix(gameObject, viewMatrix));
+            shaderProgram.setUniform(UNIFORM_MODEL_VIEW_MATRIX, transformation.getModelViewMatrix(gameObject, viewMatrix));
             mesh.render();
         }
 

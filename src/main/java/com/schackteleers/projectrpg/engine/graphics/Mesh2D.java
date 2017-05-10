@@ -1,11 +1,14 @@
 package com.schackteleers.projectrpg.engine.graphics;
 
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
@@ -25,9 +28,11 @@ public class Mesh2D {
     private final List<Integer> vboIdList;
 
     private static final int VBO_POSITIONS = 0;
-    private static final int VBO_COLORS = 1;
+    private static final int VBO_TEXTURE_COORDS = 1;
 
     private final int vertexCount;
+
+    private Texture texture;
 
     private static float[] vertices = {
             -0.5f, 0.5f, // Top Left
@@ -36,11 +41,11 @@ public class Mesh2D {
             0.5f, -0.5f // Bottom Right
     };
 
-    private static float[] colors = {
-            1.0f, 1.0f, 1.0f, //White
-            1.0f, 0.0f, 0.0f, //Red
-            1.0f, 0.0f, 0.0f, //Red
-            1.0f, 0.0f, 0.0f //Red
+    private static float[] textureCoords = {
+            0.0f, 0.0f, //V0 Top Left
+            0.0f, 1.0f, //V1 Bottom Left
+            1.0f, 0.0f, //V2 Top Right
+            1.0f, 1.0f  //V3 Bottom Right
     };
 
     private static int[] indices = {0, 1, 2, 2, 1, 3};
@@ -49,14 +54,15 @@ public class Mesh2D {
     /**
      * Creates a basic rectangle
      */
-    public Mesh2D() {
-        this(vertices, colors, indices);
+    public Mesh2D() throws IOException {
+        this(vertices, textureCoords, indices, new Texture("/textures/mario.png"));
     }
 
-
-    private Mesh2D(final float[] vertices, final float[] colors, final int[] indices) {
+    private Mesh2D(final float[] vertices, final float[] textureCoords, final int[] indices, Texture texture) {
         vboIdList = new ArrayList<>();
         vertexCount = indices.length;
+        this.texture = texture;
+
         //Create VAO and bind
         vaoId = glGenVertexArrays();
         glBindVertexArray(vaoId);
@@ -80,14 +86,15 @@ public class Mesh2D {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
         memFree(indicesBuffer);
 
-        //Color VBO
+        //Texture VBO
         vboId = glGenBuffers();
         vboIdList.add(vboId);
-        FloatBuffer colorsBuffer = memAllocFloat(colors.length);
-        colorsBuffer.put(colors).flip();
+        FloatBuffer textureCoordBuffer = memAllocFloat(textureCoords.length);
+        textureCoordBuffer.put(textureCoords).flip();
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
-        glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW);
-        glVertexAttribPointer(VBO_COLORS, 3, GL_FLOAT, false, 0, 0);
+        glBufferData(GL_ARRAY_BUFFER, textureCoordBuffer, GL_STATIC_DRAW);
+        glVertexAttribPointer(VBO_TEXTURE_COORDS, 2, GL_FLOAT, false, 0, 0);
+        memFree(textureCoordBuffer);
 
 
         glBindVertexArray(0);
@@ -100,7 +107,11 @@ public class Mesh2D {
 
         // Enable VBO's
         glEnableVertexAttribArray(VBO_POSITIONS);
-        glEnableVertexAttribArray(VBO_COLORS);
+        glEnableVertexAttribArray(VBO_TEXTURE_COORDS);
+
+        // Activate texture
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture.getId());
 
         // Draw vertices
         glDrawElements(GL_TRIANGLES, vertexCount, GL_UNSIGNED_INT, 0);
@@ -122,9 +133,16 @@ public class Mesh2D {
         // Delete the VAO
         glBindVertexArray(0);
         glDeleteVertexArrays(vaoId);
+
+        // Delete Texture
+        texture.cleanup();
     }
 
     public int getVertexCount() {
         return vertexCount;
+    }
+
+    public Texture getTexture() {
+        return texture;
     }
 }
