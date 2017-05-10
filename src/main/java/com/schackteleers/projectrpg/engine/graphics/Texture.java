@@ -2,14 +2,11 @@ package com.schackteleers.projectrpg.engine.graphics;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 
-import javax.imageio.ImageIO;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.lwjgl.BufferUtils.createByteBuffer;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 
@@ -21,11 +18,13 @@ public class Texture {
 
     private final int id;
 
-    public Texture(String fileName) throws IOException {
+    private static final Map<String, Integer> loadedTextures = new HashMap<>();
+
+    Texture(String fileName) throws IOException {
         this(loadTexture(fileName));
     }
 
-    public Texture(int id) {
+    private Texture(int id) {
         this.id = id;
     }
 
@@ -34,6 +33,10 @@ public class Texture {
     }
 
     private static int loadTexture(String fileName) throws IOException {
+        // Don't load texture if already loaded
+        if (loadedTextures.containsKey(fileName))
+            return loadedTextures.get(fileName);
+
         // Load Texture file
         PNGDecoder decoder = new PNGDecoder(Texture.class.getResourceAsStream(fileName));
 
@@ -59,6 +62,8 @@ public class Texture {
                 GL_RGBA, GL_UNSIGNED_BYTE, buf);
         // Generate Mip Map
         glGenerateMipmap(GL_TEXTURE_2D);
+
+        loadedTextures.put(fileName, textureId);
         return textureId;
     }
 

@@ -40,8 +40,12 @@ public class Game implements IGameLogic {
         keyboard.init(window);
         renderer.init(window);
 
-        gameObjectList.add(new GameObject());
-        gameObjectList.add(new GameObject().setPosition(1, 1));
+        for (int i = 0; i < 50; i++) {
+            for (int j = 0; j < 50; j++) {
+                gameObjectList.add(new GameObject().setPosition((i-i/2)*2, (j-j/2)*2));
+                System.out.println(gameObjectList.size());
+            }
+        }
     }
 
     @Override
