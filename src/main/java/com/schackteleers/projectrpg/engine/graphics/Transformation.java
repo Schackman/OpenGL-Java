@@ -1,6 +1,6 @@
-package com.schackteleers.projectrpg.engine.object;
+package com.schackteleers.projectrpg.engine.graphics;
 
-import com.schackteleers.projectrpg.engine.graphics.Camera;
+import com.schackteleers.projectrpg.engine.gameobjects.GameObject;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 

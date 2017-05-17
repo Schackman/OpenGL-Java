@@ -2,9 +2,8 @@ package com.schackteleers.projectrpg.engine.graphics;
 
 import com.schackteleers.projectrpg.engine.core.Window;
 import com.schackteleers.projectrpg.engine.fileio.FileIO;
+import com.schackteleers.projectrpg.engine.gameobjects.GameObject;
 import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
-import com.schackteleers.projectrpg.engine.object.GameObject;
-import com.schackteleers.projectrpg.engine.object.Transformation;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -84,7 +83,7 @@ public class Renderer {
         // Render all game objects
         for (GameObject gameObject : gameObjectList) {
             Mesh2D mesh = gameObject.getMesh();
-            // set modelview matrix for this object
+            // set modelview matrix for this gameobjects
             shaderProgram.setUniform(UNIFORM_MODEL_VIEW_MATRIX, transformation.getModelViewMatrix(gameObject, viewMatrix));
             mesh.render();
         }

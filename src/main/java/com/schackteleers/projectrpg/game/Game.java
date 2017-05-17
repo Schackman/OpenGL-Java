@@ -2,11 +2,11 @@ package com.schackteleers.projectrpg.game;
 
 import com.schackteleers.projectrpg.engine.core.IGameLogic;
 import com.schackteleers.projectrpg.engine.core.Window;
+import com.schackteleers.projectrpg.engine.gameobjects.GameObject;
 import com.schackteleers.projectrpg.engine.graphics.Camera;
 import com.schackteleers.projectrpg.engine.graphics.Renderer;
 import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
 import com.schackteleers.projectrpg.engine.input.Keyboard;
-import com.schackteleers.projectrpg.engine.object.GameObject;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 

@@ -1,4 +1,4 @@
-package com.schackteleers.projectrpg.engine.object;
+package com.schackteleers.projectrpg.engine.gameobjects;
 
 import com.schackteleers.projectrpg.engine.graphics.Mesh2D;
 import org.joml.Vector3f;
