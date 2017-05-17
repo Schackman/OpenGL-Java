@@ -6,6 +6,8 @@ targetCompatibility = 1.8
 
 mainClassName = "com.schackteleers.projectrpg.game.Main"
 
+applicationDefaultJvmArgs = ["-XX:+UseG1GC"]
+
 import org.gradle.internal.os.OperatingSystem
 
 switch ( OperatingSystem.current() ) {

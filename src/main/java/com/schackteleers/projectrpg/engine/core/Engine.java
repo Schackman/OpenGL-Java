@@ -5,6 +5,8 @@ package com.schackteleers.projectrpg.engine.core;
  * @since 21/04/2017
  */
 
+import java.lang.management.GarbageCollectorMXBean;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Engine implements Runnable {
@@ -88,8 +90,14 @@ public class Engine implements Runnable {
             }
 
             timer.update();
+            Runtime runtime = Runtime.getRuntime();
+            int MB = 1048576;
+            long maxMem = runtime.maxMemory() / MB;
+            long freeMem = runtime.freeMemory() / MB;
+            long totalMem = runtime.totalMemory() / MB;
+            long usedMem = totalMem - freeMem;
 
-            window.setTitle(String.format("%s | FPS: %d", window.getTitle(), timer.getFps()));
+            window.setTitle(String.format("%s | fps: %d | Used Mem: %d | Free Mem: %d | Tot Mem %d| Max Mem: %d", window.getTitle(), timer.getFps(), usedMem, freeMem, totalMem, maxMem));
         }
     }
 
