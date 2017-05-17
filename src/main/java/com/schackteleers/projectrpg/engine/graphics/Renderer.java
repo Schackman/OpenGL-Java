@@ -2,10 +2,13 @@ package com.schackteleers.projectrpg.engine.graphics;
 
 import com.schackteleers.projectrpg.engine.core.Window;
 import com.schackteleers.projectrpg.engine.fileio.FileIO;
+import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
 import com.schackteleers.projectrpg.engine.object.GameObject;
 import com.schackteleers.projectrpg.engine.object.Transformation;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
 
 import java.util.List;
@@ -18,9 +21,10 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class Renderer {
     private static final String UNIFORM_PROJECTION_MATRIX = "projectionmatrix";
-    private static final String UNIFORM_MODEL_VIEW_MATRIX= "modelviewmatrix";
+    private static final String UNIFORM_MODEL_VIEW_MATRIX = "modelviewmatrix";
     private static final String UNIFORM_TEXTURE_SAMPLER = "texture_sampler";
     private static final String UNIFORM_AMBIENT_LIGHT = "ambient_light";
+    private static final String UNIFORM_POINT_LIGHT = "point_light";
 
     private ShaderProgram shaderProgram;
     private Transformation transformation;
@@ -48,9 +52,10 @@ public class Renderer {
         shaderProgram.createUniform(UNIFORM_MODEL_VIEW_MATRIX);
         shaderProgram.createUniform(UNIFORM_TEXTURE_SAMPLER);
         shaderProgram.createUniform(UNIFORM_AMBIENT_LIGHT);
+        shaderProgram.createPointLightUniform(UNIFORM_POINT_LIGHT);
     }
 
-    public void render(Window window, Camera camera, List<GameObject> gameObjectList) {
+    public void render(Window window, Camera camera, List<GameObject> gameObjectList, List<PointLight> pointLightList) {
         glClear(GL_COLOR_BUFFER_BIT); //Clear the frame buffer so a new frame can be rendered
 
         if (window.isResized()) {
@@ -65,6 +70,16 @@ public class Renderer {
         shaderProgram.setUniform(UNIFORM_AMBIENT_LIGHT, ambientLight);
 
         Matrix4f viewMatrix = transformation.getViewMatrix(camera); // Update view matrix
+
+        for (PointLight pointLight : pointLightList) {
+            PointLight currPointLight = new PointLight(pointLight);
+            Vector2f lightPos = currPointLight.getPosition();
+            Vector4f aux = new Vector4f(lightPos, 0, 1);
+            aux.mul(viewMatrix);
+            lightPos.x = aux.x;
+            lightPos.y = aux.y;
+            shaderProgram.setUniform(UNIFORM_POINT_LIGHT, currPointLight);
+        }
 
         // Render all game objects
         for (GameObject gameObject : gameObjectList) {

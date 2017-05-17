@@ -4,8 +4,11 @@ import com.schackteleers.projectrpg.engine.core.IGameLogic;
 import com.schackteleers.projectrpg.engine.core.Window;
 import com.schackteleers.projectrpg.engine.graphics.Camera;
 import com.schackteleers.projectrpg.engine.graphics.Renderer;
+import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
 import com.schackteleers.projectrpg.engine.input.Keyboard;
 import com.schackteleers.projectrpg.engine.object.GameObject;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ public class Game implements IGameLogic {
     private final Renderer renderer;
     private Camera camera;
     private List<GameObject> gameObjectList;
+    private List<PointLight> pointLightList;
 
     private Keyboard keyboard;
 
@@ -34,12 +38,14 @@ public class Game implements IGameLogic {
         this.renderer = new Renderer();
         this.camera = new Camera();
         this.gameObjectList = new ArrayList<>();
+        this.pointLightList = new ArrayList<>();
     }
 
     @Override
     public void init(Window window) throws Exception {
         keyboard.init(window);
         renderer.init(window);
+        renderer.getAmbientLight().set(0);
 
         int max_i = 50;
         int max_j = 50;
@@ -48,6 +54,10 @@ public class Game implements IGameLogic {
                 gameObjectList.add(new GameObject().setPosition((i-max_i/2), (j-max_j/2)));
             }
         }
+
+        pointLightList.add(new PointLight(new Vector3f(0.37f, 0.25f, 0.05f), new Vector2f(), 0.1f));
+
+        System.gc();
     }
 
     @Override
@@ -75,12 +85,12 @@ public class Game implements IGameLogic {
     public void update(double interval) {
         camera.translate(moveCameraX, moveCameraY);
         camera.rotate(rotateCamera);
-        renderer.getAmbientLight().add(ambientLightChange, ambientLightChange, ambientLightChange);
+        //renderer.getAmbientLight().add(ambientLightChange, ambientLightChange, ambientLightChange);
     }
 
     @Override
     public void render(Window window) {
-        renderer.render(window, camera, gameObjectList);
+        renderer.render(window, camera, gameObjectList, pointLightList);
     }
 
     @Override

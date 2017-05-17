@@ -5,8 +5,8 @@ layout (location=1) in vec2 texture_coord;
 layout (location=2) in vec3 vertex_normal;
 
 out vec2 ex_texture_coord;
-out vec3 mv_vertex_normal;
 out vec3 mv_vertex_pos;
+out vec3 mv_vertex_normal;
 
 uniform mat4 projectionmatrix;
 uniform mat4 modelviewmatrix;

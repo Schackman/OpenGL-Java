@@ -1,6 +1,8 @@
 package com.schackteleers.projectrpg.engine.graphics;
 
+import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 
@@ -91,6 +93,15 @@ class ShaderProgram {
         uniforms.put(uniformName, uniformLocation);
     }
 
+    void createPointLightUniform(String uniformName) throws Exception {
+        createUniform(uniformName + ".color");
+        createUniform(uniformName + ".position");
+        createUniform(uniformName + ".intensity");
+        createUniform(uniformName + ".att.constant");
+        createUniform(uniformName + ".att.linear");
+        createUniform(uniformName + ".att.exponent");
+    }
+
     void setUniform(String uniformName, Matrix4f value) {
         FloatBuffer fb = BufferUtils.createFloatBuffer(16);
         value.get(fb);
@@ -103,6 +114,25 @@ class ShaderProgram {
 
     void setUniform(String uniformName, Vector3f value){
         glUniform3f(uniforms.get(uniformName), value.x, value.y, value.z);
+    }
+
+    void setUniform(String uniformName, PointLight pointLight) {
+        setUniform(uniformName + ".color", pointLight.getColor());
+        setUniform(uniformName + ".position", pointLight.getPosition());
+        setUniform(uniformName + ".intensity", pointLight.getIntensity());
+        PointLight.Attenuation att = pointLight.getAttenuation();
+        setUniform(uniformName + ".att.constant", att.getConstant());
+        setUniform(uniformName + ".att.linear", att.getLinear());
+        setUniform(uniformName + ".att.exponent", att.getExponent());
+    }
+
+
+    private void setUniform(String uniformName, Vector2f value) {
+        glUniform2f(uniforms.get(uniformName), value.x, value.y);
+    }
+
+    private void setUniform(String uniformName, float value) {
+        glUniform1f(uniforms.get(uniformName), value);
     }
 
     void cleanUp() {
