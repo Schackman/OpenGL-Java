@@ -5,7 +5,15 @@ package com.schackteleers.projectrpg.engine.core;
  * @since 21/04/2017
  */
 
+import com.schackteleers.projectrpg.engine.fileio.ConfigFile;
+import org.ini4j.Ini;
+import org.ini4j.Profile;
+
+import java.io.IOException;
 import java.lang.management.GarbageCollectorMXBean;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -22,10 +30,29 @@ public class Engine implements Runnable {
 
     private final IGameLogic gameLogic;
 
+    private static ConfigFile engineConfig;
+
+    {
+        try {
+            engineConfig = new ConfigFile("engine");
+            if (engineConfig.isEmpty()) {
+                engineConfig = loadDefaultConfig();
+                System.out.println("loaded default engine.ini");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Engine(IGameLogic gameLogic) {
         this.gameLoopThread = new Thread(this, "GAME_LOOP_THREAD");
+
         this.timer = new Timer();
-        this.window = new Window("ARCHON RPG", 1280, 720, false);
+
+        int winWidth = Integer.parseInt(engineConfig.get("display", "iwidth"));
+        int winHeight = Integer.parseInt(engineConfig.get("display", "iheight"));
+        boolean winVsync = Boolean.parseBoolean(engineConfig.get("display", "bvsync"));
+        this.window = new Window("ARCHON RPG", winWidth, winHeight, winVsync);
         this.gameLogic = gameLogic;
     }
 
@@ -138,5 +165,15 @@ public class Engine implements Runnable {
         while (timer.getTime() < endTime) {
             Thread.yield();
         }
+    }
+
+
+    private ConfigFile loadDefaultConfig() throws IOException {
+        Ini ini = new Ini();
+        ini.put("display", "iwidth", 1280);
+        ini.put("display", "iheight", 720);
+        ini.put("display", "bvsync", false);
+
+        return new ConfigFile("engine", ini);
     }
 }

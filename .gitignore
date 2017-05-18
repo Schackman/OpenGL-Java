@@ -6,6 +6,9 @@
 # User-specific stuff:
 .idea
 
+#.ini files
+*.ini
+
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml
 

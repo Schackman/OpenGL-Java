@@ -22,8 +22,8 @@ switch ( OperatingSystem.current() ) {
 		break
 }
 
-project.ext.lwjglVersion = "3.1.1"
-project.ext.jomlVersion = "1.9.2"
+project.ext.lwjglVersion = "3.1.2"
+project.ext.jomlVersion = "1.9.3"
 
 repositories {
 	mavenCentral()
@@ -50,4 +50,5 @@ dependencies {
 	runtime "org.lwjgl:lwjgl-stb:${lwjglVersion}:${lwjglNatives}"
 	compile "org.joml:joml:${jomlVersion}"
 	compile group: 'org.l33tlabs.twl', name: 'pngdecoder', version: '1.0'
+	compile group: 'org.ini4j', name: 'ini4j', version: '0.5.1'
 }
