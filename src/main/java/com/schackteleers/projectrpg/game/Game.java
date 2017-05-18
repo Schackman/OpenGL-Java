@@ -85,7 +85,7 @@ public class Game implements IGameLogic {
     public void update(double interval) {
         camera.translate(moveCameraX, moveCameraY);
         camera.rotate(rotateCamera);
-        renderer.getAmbientLight().add(ambientLightChange, ambientLightChange, ambientLightChange);
+        renderer.addAmbientLight(ambientLightChange);
     }
 
     @Override

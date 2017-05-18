@@ -100,6 +100,18 @@ public class Renderer {
         this.ambientLight = ambientLight;
     }
 
+    public void addAmbientLight(Vector3f ambientLightChange){
+        this.ambientLight.add(ambientLightChange);
+    }
+
+    public void addAmbientLight(float r, float g, float b){
+        this.ambientLight.add(r, g, b);
+    }
+
+    public void addAmbientLight(float rgb){
+        this.ambientLight.add(rgb, rgb, rgb);
+    }
+
     public Vector3f getAmbientLight() {
         return ambientLight;
     }

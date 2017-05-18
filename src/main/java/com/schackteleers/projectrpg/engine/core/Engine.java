@@ -117,14 +117,8 @@ public class Engine implements Runnable {
             }
 
             timer.update();
-            Runtime runtime = Runtime.getRuntime();
-            int MB = 1048576;
-            long maxMem = runtime.maxMemory() / MB;
-            long freeMem = runtime.freeMemory() / MB;
-            long totalMem = runtime.totalMemory() / MB;
-            long usedMem = totalMem - freeMem;
 
-            window.setTitle(String.format("%s | fps: %d | Used Mem: %d | Free Mem: %d | Tot Mem %d| Max Mem: %d", window.getTitle(), timer.getFps(), usedMem, freeMem, totalMem, maxMem));
+            window.setTitle(String.format("%s | fps: %d", window.getTitle(), timer.getFps()));
         }
     }
 
