@@ -32,7 +32,7 @@ vec4 calcPointLight(PointLight light, vec3 vertex_position, vec3 normal)
      vec3 light_direction = light.position - vertex_position;
      vec3 to_light_source = normalize(light_direction);
      float diffuseFactor = max(dot(normal, to_light_source), 0.0);
-     vec4 diffuseColour = vec4(light.color, 1.0) * light.intensity;
+     vec4 diffuseColour = vec4(light.color, 0.0) * light.intensity;
 
      // Attenuation
      float distance = length(light_direction);
@@ -43,7 +43,7 @@ vec4 calcPointLight(PointLight light, vec3 vertex_position, vec3 normal)
  }
 void main()
 {
-    vec4 pointLights;
+    vec4 pointLights = vec4(0, 0, 0, 1);
     for (int i=0; i<MAX_POINT_LIGHTS;i++){
         if(point_light_list[i].intensity > 0){
             pointLights += calcPointLight(point_light_list[i], mv_vertex_pos, mv_vertex_normal);
