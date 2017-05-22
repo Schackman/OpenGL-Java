@@ -8,22 +8,22 @@ import org.joml.Vector3f;
  * @author Stijn Schack
  * @since 27/04/2017
  */
-public class Transformation {
+class Transformation {
     private final Matrix4f projectionMatrix;
     private final Matrix4f viewMatrix;
     private final Matrix4f modelViewMatrix;
 
-    public Transformation() {
+    Transformation() {
         this.projectionMatrix = new Matrix4f();
         this.viewMatrix = new Matrix4f();
         this.modelViewMatrix = new Matrix4f();
     }
 
-    public Matrix4f getProjectionMatrix(int width, int height) {
-        return projectionMatrix.setOrtho2D(-width / 2, width / 2, -height / 2, height / 2).scale(32);
+    Matrix4f getProjectionMatrix(int width, int height, double dpi) {
+        return projectionMatrix.setOrtho2D(-width / 2, width / 2, -height / 2, height / 2).scale((float) (32*dpi*0.00005));
     }
 
-    public Matrix4f getViewMatrix(Camera camera){
+    Matrix4f getViewMatrix(Camera camera){
         Vector3f camPos = camera.getPosition();
         float camRot = camera.getRotation();
 
@@ -33,7 +33,7 @@ public class Transformation {
         return viewMatrix;
     }
 
-    public final Matrix4f getModelViewMatrix(GameObject gameObject, Matrix4f viewMatrix) {
+    final Matrix4f getModelViewMatrix(GameObject gameObject, Matrix4f viewMatrix) {
         Vector3f rotation = gameObject.getRotation();
         modelViewMatrix.identity().translate(gameObject.getPosition())
                 .rotateX((float) Math.toRadians(-rotation.x))

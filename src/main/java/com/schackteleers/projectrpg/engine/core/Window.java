@@ -146,4 +146,11 @@ public class Window {
     void cleanUp() {
         glfwDestroyWindow(windowHandle);
     }
+
+    public double getDpi() {
+        int[] widthMM = new int[1];
+        int[] heightMM = new int[1];
+        glfwGetMonitorPhysicalSize(windowHandle, widthMM, heightMM);
+        return width / (widthMM[0] / 25.4d);
+    }
 }

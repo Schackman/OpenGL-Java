@@ -64,7 +64,7 @@ public class Renderer {
 
         shaderProgram.bind(); // Tell GPU to use shader program
 
-        shaderProgram.setUniform(UNIFORM_PROJECTION_MATRIX, transformation.getProjectionMatrix(window.getWidth(), window.getHeight())); // Update projection matrix
+        shaderProgram.setUniform(UNIFORM_PROJECTION_MATRIX, transformation.getProjectionMatrix(window.getWidth(), window.getHeight(), window.getDpi())); // Update projection matrix
         shaderProgram.setUniform(UNIFORM_TEXTURE_SAMPLER, 0);
         shaderProgram.setUniform(UNIFORM_AMBIENT_LIGHT, ambientLight);
 
