@@ -8,6 +8,7 @@ import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL20.*;
@@ -93,13 +94,19 @@ class ShaderProgram {
         uniforms.put(uniformName, uniformLocation);
     }
 
-    void createPointLightUniform(String uniformName) throws Exception {
+    private void createPointLightUniform(String uniformName) throws Exception {
         createUniform(uniformName + ".color");
         createUniform(uniformName + ".position");
         createUniform(uniformName + ".intensity");
         createUniform(uniformName + ".att.constant");
         createUniform(uniformName + ".att.linear");
         createUniform(uniformName + ".att.exponent");
+    }
+
+    void createPointLightListUniform(String uniformName, int size) throws Exception {
+        for (int i = 0; i < size; i++) {
+            createPointLightUniform(uniformName + "[" + i + "]");
+        }
     }
 
     void setUniform(String uniformName, Matrix4f value) {
@@ -114,6 +121,16 @@ class ShaderProgram {
 
     void setUniform(String uniformName, Vector3f value){
         glUniform3f(uniforms.get(uniformName), value.x, value.y, value.z);
+    }
+
+    void setUniform(String uniformName, PointLight[] pointLights){
+        for (int i = 0; i < pointLights.length; i++) {
+            setUniform(uniformName + "[" + i + "]", pointLights[i]);
+        }
+    }
+
+    void setUniform(String uniformName, PointLight pointLight, int position){
+        setUniform(uniformName + "[" + position + "]", pointLight);
     }
 
     void setUniform(String uniformName, PointLight pointLight) {

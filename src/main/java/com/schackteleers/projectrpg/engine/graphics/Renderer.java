@@ -10,6 +10,7 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -23,7 +24,7 @@ public class Renderer {
     private static final String UNIFORM_MODEL_VIEW_MATRIX = "modelviewmatrix";
     private static final String UNIFORM_TEXTURE_SAMPLER = "texture_sampler";
     private static final String UNIFORM_AMBIENT_LIGHT = "ambient_light";
-    private static final String UNIFORM_POINT_LIGHT = "point_light";
+    private static final String UNIFORM_POINT_LIGHT_LIST = "point_light_list";
 
     private ShaderProgram shaderProgram;
     private Transformation transformation;
@@ -51,7 +52,7 @@ public class Renderer {
         shaderProgram.createUniform(UNIFORM_MODEL_VIEW_MATRIX);
         shaderProgram.createUniform(UNIFORM_TEXTURE_SAMPLER);
         shaderProgram.createUniform(UNIFORM_AMBIENT_LIGHT);
-        shaderProgram.createPointLightUniform(UNIFORM_POINT_LIGHT);
+        shaderProgram.createPointLightListUniform(UNIFORM_POINT_LIGHT_LIST, 32);
     }
 
     public void render(Window window, Camera camera, List<GameObject> gameObjectList, List<PointLight> pointLightList) {
@@ -70,8 +71,9 @@ public class Renderer {
 
         Matrix4f viewMatrix = transformation.getViewMatrix(camera); // Update view matrix
 
-        for (PointLight pointLight : pointLightList) {
-            PointLight currPointLight = new PointLight(pointLight);
+        // Render PointLights
+        for (int i = 0; i<pointLightList.size(); i++) {
+            PointLight currPointLight = new PointLight(pointLightList.get(i));
             Vector3f lightPos = currPointLight.getPosition();
             lightPos.z = 0;
             Vector4f aux = new Vector4f(lightPos, 1);
@@ -79,8 +81,7 @@ public class Renderer {
             lightPos.x = aux.x;
             lightPos.y = aux.y;
             lightPos.z = aux.z;
-            System.out.println(currPointLight.getPosition().toString());
-            shaderProgram.setUniform(UNIFORM_POINT_LIGHT, currPointLight);
+            shaderProgram.setUniform(UNIFORM_POINT_LIGHT_LIST, currPointLight, i);
         }
 
         // Render all game objects

@@ -56,7 +56,7 @@ public class Game implements IGameLogic {
         }
 
         pointLightList.add(new PointLight(new Vector3f(0.37f, 0.25f, 0.05f), new Vector2f(), 0.2f).setAttenuation(0, 0.5f, 0.1f));
-        //pointLightList.add(new PointLight(new Vector3f(0.37f, 0.25f, 0.05f), new Vector2f(1, 1), 0.2f).setAttenuation(0, .5f, .1f));
+        pointLightList.add(new PointLight(new Vector3f(0.37f, 0.25f, 0.05f), new Vector2f(1, 1), 0.2f).setAttenuation(0, .5f, .1f));
 
         System.gc();
     }

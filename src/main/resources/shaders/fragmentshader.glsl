@@ -20,9 +20,11 @@ struct PointLight
     Attenuation att;
 };
 
+const int MAX_POINT_LIGHTS = 32;
+
 uniform sampler2D texture_sampler;
 uniform vec3 ambient_light;
-uniform PointLight point_light;
+uniform PointLight point_light_list[MAX_POINT_LIGHTS];
 
 vec4 calcPointLight(PointLight light, vec3 vertex_position, vec3 normal)
  {
@@ -41,6 +43,11 @@ vec4 calcPointLight(PointLight light, vec3 vertex_position, vec3 normal)
  }
 void main()
 {
-    vec4 pointLight = calcPointLight(point_light, mv_vertex_pos, mv_vertex_normal);
-    frag_color = texture(texture_sampler, ex_texture_coord) * (vec4(ambient_light, 1) + pointLight);
+    vec4 pointLights;
+    for (int i=0; i<MAX_POINT_LIGHTS;i++){
+        if(point_light_list[i].intensity > 0){
+            pointLights += calcPointLight(point_light_list[i], mv_vertex_pos, mv_vertex_normal);
+        }
+    }
+    frag_color = texture(texture_sampler, ex_texture_coord) * (vec4(ambient_light, 1) + pointLights);
 }
