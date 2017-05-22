@@ -24,17 +24,23 @@ uniform sampler2D texture_sampler;
 uniform vec3 ambient_light;
 uniform PointLight point_light;
 
-vec4 calcPointLight(PointLight light, vec3 position, vec3 normal)
+vec4 calcPointLight(PointLight light, vec3 vertex_position, vec3 normal)
  {
+     // Diffuse Light
+     vec3 light_direction = light.position - vertex_position;
+     vec3 to_light_source = normalize(light_direction);
+     float diffuseFactor = max(dot(normal, to_light_source), 0.0);
+     vec4 diffuseColour = vec4(light.color, 1.0) * light.intensity;
+
      // Attenuation
-     vec3 light_direction = light.position - position;
      float distance = length(light_direction);
      float attenuationInv = light.att.constant + light.att.linear * distance +
          light.att.exponent * distance * distance;
-     return vec4(light.color * light.intensity, 1.0) / attenuationInv;
+
+     return diffuseColour / attenuationInv;
  }
 void main()
 {
-    vec4 diffuseSpecularComp = calcPointLight(point_light, mv_vertex_pos, mv_vertex_normal);
-    frag_color = (vec4(ambient_light, 1.0)+ diffuseSpecularComp) * texture(texture_sampler, ex_texture_coord);
+    vec4 pointLight = calcPointLight(point_light, mv_vertex_pos, mv_vertex_normal);
+    frag_color = texture(texture_sampler, ex_texture_coord) * (vec4(ambient_light, 1) + pointLight);
 }

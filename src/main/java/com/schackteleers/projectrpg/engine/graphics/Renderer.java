@@ -72,11 +72,14 @@ public class Renderer {
 
         for (PointLight pointLight : pointLightList) {
             PointLight currPointLight = new PointLight(pointLight);
-            Vector2f lightPos = currPointLight.getPosition();
-            Vector4f aux = new Vector4f(lightPos, 0, 1);
+            Vector3f lightPos = currPointLight.getPosition();
+            lightPos.z = 0;
+            Vector4f aux = new Vector4f(lightPos, 1);
             aux.mul(viewMatrix);
             lightPos.x = aux.x;
             lightPos.y = aux.y;
+            lightPos.z = aux.z;
+            System.out.println(currPointLight.getPosition().toString());
             shaderProgram.setUniform(UNIFORM_POINT_LIGHT, currPointLight);
         }
 

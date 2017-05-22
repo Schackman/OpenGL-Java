@@ -11,16 +11,16 @@ public class PointLight {
 
     private Vector3f color;
 
-    private Vector2f position;
+    private Vector3f position;
 
     private float intensity;
 
     private Attenuation attenuation;
 
     public PointLight(Vector3f color, Vector2f position, float intensity) {
-        attenuation = new Attenuation(0, 0, 0.1f);
+        attenuation = new Attenuation(0, 0.3f, 0);
         this.color = color;
-        this.position = position;
+        this.position = new Vector3f(position.x, position.y, 0);
         this.intensity = intensity;
     }
 
@@ -30,7 +30,7 @@ public class PointLight {
     }
 
     public PointLight(PointLight pointLight) {
-        this(new Vector3f(pointLight.getColor()), new Vector2f(pointLight.getPosition()),
+        this(new Vector3f(pointLight.getColor()), new Vector2f(pointLight.getPosition().x, pointLight.getPosition().y),
                 pointLight.getIntensity(), pointLight.getAttenuation());
     }
 
@@ -42,11 +42,11 @@ public class PointLight {
         this.color = color;
     }
 
-    public Vector2f getPosition() {
+    public Vector3f getPosition() {
         return position;
     }
 
-    public void setPosition(Vector2f position) {
+    public void setPosition(Vector3f position) {
         this.position = position;
     }
 
@@ -62,8 +62,16 @@ public class PointLight {
         return attenuation;
     }
 
-    public void setAttenuation(Attenuation attenuation) {
+    public PointLight setAttenuation(Attenuation attenuation) {
         this.attenuation = attenuation;
+        return this;
+    }
+
+    public PointLight setAttenuation(float constant, float linear, float exponent) {
+        this.attenuation.constant = constant;
+        this.attenuation.linear = linear;
+        this.attenuation.exponent = exponent;
+        return this;
     }
 
     public static class Attenuation {

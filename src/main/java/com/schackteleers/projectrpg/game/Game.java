@@ -45,7 +45,7 @@ public class Game implements IGameLogic {
     public void init(Window window) throws Exception {
         keyboard.init(window);
         renderer.init(window);
-        renderer.getAmbientLight().set(0);
+        renderer.getAmbientLight().set(0.001f);
 
         int max_i = 50;
         int max_j = 50;
@@ -55,7 +55,8 @@ public class Game implements IGameLogic {
             }
         }
 
-        pointLightList.add(new PointLight(new Vector3f(0.37f, 0.25f, 0.05f), new Vector2f(), 0.1f));
+        pointLightList.add(new PointLight(new Vector3f(0.37f, 0.25f, 0.05f), new Vector2f(), 0.2f).setAttenuation(0, 0.5f, 0.1f));
+        //pointLightList.add(new PointLight(new Vector3f(0.37f, 0.25f, 0.05f), new Vector2f(1, 1), 0.2f).setAttenuation(0, .5f, .1f));
 
         System.gc();
     }
