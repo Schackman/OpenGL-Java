@@ -9,6 +9,7 @@ import com.schackteleers.projectrpg.engine.graphics.Renderer;
 import com.schackteleers.projectrpg.engine.graphics.Texture;
 import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
 import com.schackteleers.projectrpg.engine.input.Keyboard;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class Game implements IGameLogic {
     public void init(Window window) throws Exception {
         keyboard.init(window);
         renderer.init(window);
-        renderer.getAmbientLight().set(1f);
+        renderer.getAmbientLight().set(.1f);
 
         final int MAX_X = 10;
         final int MAX_Z = 10;
@@ -57,6 +58,8 @@ public class Game implements IGameLogic {
                 gameObjectList.add(new GameObject(new Mesh(new Texture("grassblock"))).setPosition(x - MAX_X / 2, 0, z - MAX_Z / 2));
             }
         }
+        gameObjectList.add(new GameObject(new Mesh(new Texture("grassblock"))).setPosition(0, 1, 0));
+        pointLightList.add(new PointLight(new Vector3f(1, 1, 1), new Vector3f(0, 2, 0), .3f));
         System.gc();
     }
 
