@@ -21,7 +21,7 @@ import static org.lwjgl.system.MemoryUtil.*;
  * @author Stijn Schack
  * @since 25/04/2017
  */
-public class Mesh2D {
+public class Mesh {
     private final int vaoId;
     private final List<Integer> vboIdList;
 
@@ -33,30 +33,50 @@ public class Mesh2D {
     private Texture texture;
 
     private static float[] vertices = {
-            -0.5f, 0.5f, // Top Left
-            -0.5f, -0.5f, // Bottom Left
-            0.5f, 0.5f, // Top Right
-            0.5f, -0.5f // Bottom Right
+            -0.5f, 0.50f, 0.5f,    // 0 Front Top Left sf
+            -0.5f, -0.5f, 0.5f,    // 1 Front Bottom Left sf
+            0.50f, 0.50f, 0.5f,    // 2 Front Top Right sf
+            0.50f, -0.5f, 0.5f,    // 3 Front Bottom Right sf
+            -0.5f, 0.50f, -0.50f,    // 4 Back Top Left tf
+            0.50f, 0.50f, -0.50f,    // 5 Back Top Right sf
+            0.50f, -0.5f, -0.50f,    // 6 Back Bottom Right sf
+            -0.5f, 0.50f, 0.5f,    // 7 Front Top Left tf
+            0.50f, 0.50f, -0.50f,    // 8 Back Top Right tf
+            0.50f, 0.50f, 0.5f     // 9 Front Top Right tf
     };
 
     private static float[] textureCoords = {
-            0.0f, 0.0f, //V0 Top Left
-            0.0f, 1.0f, //V1 Bottom Left
-            1.0f, 0.0f, //V2 Top Right
-            1.0f, 1.0f  //V3 Bottom Right
+            0.0f, 0.0f, //V0
+            0.0f, 1.0f, //V1
+            0.5f, 0.0f, //V2
+            0.5f, 1.0f, //V3
+            0.5f, 0.0f, //V4
+            0.0f, 0.0f, //V5
+            0.0f, 1.0f, //V6
+            0.5f, 1.0f, //V7
+            1.0f, 0.0f, //V8
+            1.0f, 1.0f  //V9
     };
 
-    private static int[] indices = {0, 1, 2, 2, 1, 3};
+    private static int[] indices = {
+            0, 1, 2, 2, 1, 3, // FTL, FBL, FTR, FTR, FBL, FBR (Front Face)
+            2, 3, 5, 5, 3, 6,  // FTR, FBR, BTR, BTR, FBR, BBR (Right Face)
+            4, 7, 8, 8, 7, 9 // BTL, FTL, BTR, BTR, FTL, FTR (Top Face)
+    };
 
 
     /**
      * Creates a basic rectangle
      */
-    public Mesh2D() throws IOException {
-        this(vertices, textureCoords, indices, new Texture("/textures/mario.png"));
+    public Mesh() throws IOException {
+        this(new Texture("placeholder"));
     }
 
-    private Mesh2D(final float[] vertices, final float[] textureCoords, final int[] indices, Texture texture) {
+    public Mesh(Texture texture) throws IOException {
+        this(vertices, textureCoords, indices, texture);
+    }
+
+    private Mesh(final float[] vertices, final float[] textureCoords, final int[] indices, Texture texture) {
         vboIdList = new ArrayList<>();
         vertexCount = indices.length;
         this.texture = texture;
@@ -72,7 +92,7 @@ public class Mesh2D {
         verticesBuffer.put(vertices).flip();
         glBindBuffer(GL_ARRAY_BUFFER, vboId);
         glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);
-        glVertexAttribPointer(VBO_POSITIONS, 2, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(VBO_POSITIONS, 3, GL_FLOAT, false, 0, 0);
         memFree(verticesBuffer);
 
         //Indices VBO

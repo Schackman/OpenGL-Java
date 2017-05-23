@@ -26,4 +26,14 @@ public class Keyboard {
     public boolean isKeyPressed(int key){
         return glfwGetKey(window.getWindowHandle(), key) == GLFW_PRESS;
     }
+
+    public float setOnKeyPressed(int key, float val){
+        return  glfwGetKey(window.getWindowHandle(), key) == GLFW_PRESS ? val : 0;
+    }
+
+    public float setOnKeyPressed(int key,int keyOpposite, float val, float otherVal){
+        if (isKeyPressed(key)) return val;
+        else if (isKeyPressed(keyOpposite)) return otherVal;
+        else return 0;
+    }
 }

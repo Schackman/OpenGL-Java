@@ -5,12 +5,11 @@ import com.schackteleers.projectrpg.engine.fileio.FileIO;
 import com.schackteleers.projectrpg.engine.gameobjects.GameObject;
 import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
 import org.joml.Matrix4f;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -40,6 +39,10 @@ public class Renderer {
         GL.createCapabilities();
         System.out.println("OpenGL Version: " + glGetString(GL_VERSION));
         glClearColor(0, 0, 0, 1);
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_TEXTURE_2D);
+
 
         // Initialize and link the Shader Program
         shaderProgram = new ShaderProgram();
@@ -56,7 +59,7 @@ public class Renderer {
     }
 
     public void render(Window window, Camera camera, List<GameObject> gameObjectList, List<PointLight> pointLightList) {
-        glClear(GL_COLOR_BUFFER_BIT); //Clear the frame buffer so a new frame can be rendered
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clear the frame buffer so a new frame can be rendered
 
         if (window.isResized()) {
             glViewport(0, 0, window.getWidth(), window.getHeight());
@@ -72,10 +75,9 @@ public class Renderer {
         Matrix4f viewMatrix = transformation.getViewMatrix(camera); // Update view matrix
 
         // Render PointLights
-        for (int i = 0; i<pointLightList.size(); i++) {
+        for (int i = 0; i < pointLightList.size(); i++) {
             PointLight currPointLight = new PointLight(pointLightList.get(i));
             Vector3f lightPos = currPointLight.getPosition();
-            lightPos.z = 0;
             Vector4f aux = new Vector4f(lightPos, 1);
             aux.mul(viewMatrix);
             lightPos.x = aux.x;
@@ -86,7 +88,7 @@ public class Renderer {
 
         // Render all game objects
         for (GameObject gameObject : gameObjectList) {
-            Mesh2D mesh = gameObject.getMesh();
+            Mesh mesh = gameObject.getMesh();
             // set modelview matrix for this gameobjects
             shaderProgram.setUniform(UNIFORM_MODEL_VIEW_MATRIX, transformation.getModelViewMatrix(gameObject, viewMatrix));
             mesh.render();
@@ -104,15 +106,15 @@ public class Renderer {
         this.ambientLight = ambientLight;
     }
 
-    public void addAmbientLight(Vector3f ambientLightChange){
+    public void addAmbientLight(Vector3f ambientLightChange) {
         this.ambientLight.add(ambientLightChange);
     }
 
-    public void addAmbientLight(float r, float g, float b){
+    public void addAmbientLight(float r, float g, float b) {
         this.ambientLight.add(r, g, b);
     }
 
-    public void addAmbientLight(float rgb){
+    public void addAmbientLight(float rgb) {
         this.ambientLight.add(rgb, rgb, rgb);
     }
 

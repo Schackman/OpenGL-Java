@@ -8,11 +8,23 @@ import org.joml.Vector3f;
  */
 public class Camera {
     private Vector3f position;
-    private float rotation;
+    private Vector3f rotation;
 
     public Camera() {
         position = new Vector3f();
-        rotation = 0;
+        rotation = new Vector3f();
+    }
+
+    public void movePosition(float offsetX, float offsetY, float offsetZ) {
+        if (offsetZ != 0) {
+            position.x += (float) Math.sin(Math.toRadians(rotation.y)) * -1.0f * offsetZ;
+            position.z += (float) Math.cos(Math.toRadians(rotation.y)) * offsetZ;
+        }
+        if (offsetX != 0) {
+            position.x += (float) Math.sin(Math.toRadians(rotation.y - 90)) * -1.0f * offsetX;
+            position.z += (float) Math.cos(Math.toRadians(rotation.y - 90)) * offsetX;
+        }
+        position.y += offsetY;
     }
 
     public Vector3f getPosition() {
@@ -23,19 +35,20 @@ public class Camera {
         this.position.set(x, y, z);
     }
 
-    public float getRotation() {
+    public Vector3f getRotation() {
         return rotation;
     }
 
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
+    public Camera setRotation(float rotX, float rotY, float rotZ) {
+        this.rotation.set(rotX, rotY, rotZ);
+        return this;
     }
 
-    public void translate(float x, float y) {
-        this.position.add(x, y, 0);
+    public void translate(float x, float y, float z) {
+        this.position.add(x, y, z);
     }
 
-    public void rotate(float rotation){
-        this.rotation+=rotation;
+    public void rotate(float rotX, float rotY, float rotZ) {
+        this.rotation.add(rotX, rotY, rotZ);
     }
 }

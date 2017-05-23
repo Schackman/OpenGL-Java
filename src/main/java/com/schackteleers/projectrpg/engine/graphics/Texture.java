@@ -20,16 +20,9 @@ public class Texture {
 
     private static final Map<String, Integer> loadedTextures = new HashMap<>();
 
-    Texture(String fileName) throws IOException {
-        this(loadTexture(fileName));
-    }
-
-    private Texture(int id) {
-        this.id = id;
-    }
-
-    public void bind() {
-        glBindTexture(GL_TEXTURE_2D, id);
+    public Texture(String fileName) throws IOException {
+        fileName = "/textures/" + fileName + ".png";
+        this.id = loadTexture(fileName);
     }
 
     private static int loadTexture(String fileName) throws IOException {
@@ -67,11 +60,15 @@ public class Texture {
         return textureId;
     }
 
+    public void bind() {
+        glBindTexture(GL_TEXTURE_2D, id);
+    }
+
     int getId() {
         return id;
     }
 
-    public void cleanup() {
+    void cleanup() {
         glDeleteTextures(id);
     }
 }

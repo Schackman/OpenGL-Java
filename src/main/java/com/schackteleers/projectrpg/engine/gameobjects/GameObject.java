@@ -1,6 +1,6 @@
 package com.schackteleers.projectrpg.engine.gameobjects;
 
-import com.schackteleers.projectrpg.engine.graphics.Mesh2D;
+import com.schackteleers.projectrpg.engine.graphics.Mesh;
 import org.joml.Vector3f;
 
 import java.io.IOException;
@@ -12,24 +12,24 @@ import java.io.IOException;
  * @since 25/04/2017
  */
 public class GameObject {
-    private Mesh2D mesh;
+    private Mesh mesh;
     private Vector3f position;
     private Vector3f rotation;
     private float scale;
 
     public GameObject() throws IOException {
-        this(new Mesh2D());
+        this(new Mesh());
     }
 
-    public GameObject(Mesh2D mesh) {
+    public GameObject(Mesh mesh) {
         this.mesh = mesh;
         this.position = new Vector3f();
         this.rotation = new Vector3f();
         this.scale = 1;
     }
 
-    public GameObject setPosition(float x, float y) {
-        this.position.set(x, y, 0);
+    public GameObject setPosition(float x, float y, float z) {
+        this.position.set(x, y, z);
         return this;
     }
 
@@ -48,7 +48,7 @@ public class GameObject {
         return this;
     }
 
-    public Mesh2D getMesh() {
+    public Mesh getMesh() {
         return mesh;
     }
 

@@ -20,15 +20,16 @@ class Transformation {
     }
 
     Matrix4f getProjectionMatrix(int width, int height, double dpi) {
-        return projectionMatrix.setOrtho2D(-width / 2, width / 2, -height / 2, height / 2).scale((float) (32*dpi*0.00005));
+        return projectionMatrix.setPerspective((float) Math.toRadians(60), (float)width/height, 0.001f, 1000);
     }
 
-    Matrix4f getViewMatrix(Camera camera){
+    final Matrix4f getViewMatrix(Camera camera) {
         Vector3f camPos = camera.getPosition();
-        float camRot = camera.getRotation();
+        Vector3f camRot = camera.getRotation();
 
         viewMatrix.identity();
-        viewMatrix.rotate((float) Math.toRadians(camRot), new Vector3f(0, 0, 1));
+        viewMatrix.rotate((float) Math.toRadians(camRot.x), new Vector3f(1, 0, 0))
+                .rotate((float) Math.toRadians(camRot.y), new Vector3f(0, 1, 0));
         viewMatrix.translate(-camPos.x, -camPos.y, -camPos.z);
         return viewMatrix;
     }
