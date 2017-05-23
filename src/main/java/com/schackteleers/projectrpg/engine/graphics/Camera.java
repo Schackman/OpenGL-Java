@@ -15,7 +15,12 @@ public class Camera {
         rotation = new Vector3f();
     }
 
-    public void movePosition(float offsetX, float offsetY, float offsetZ) {
+    public Camera(float posX, float posY, float posZ, float rotX, float rotY, float rotZ) {
+        position = new Vector3f(posX, posY, posZ);
+        rotation = new Vector3f(rotX, rotY, rotZ);
+    }
+
+    public void move(float offsetX, float offsetY, float offsetZ) {
         if (offsetZ != 0) {
             position.x += (float) Math.sin(Math.toRadians(rotation.y)) * -1.0f * offsetZ;
             position.z += (float) Math.cos(Math.toRadians(rotation.y)) * offsetZ;
@@ -50,5 +55,11 @@ public class Camera {
 
     public void rotate(float rotX, float rotY, float rotZ) {
         this.rotation.add(rotX, rotY, rotZ);
+        if      (rotation.x < 0)    rotation.x += 360;
+        else if (rotation.x > 360)  rotation.x -= 360;
+        if      (rotation.y < 0)    rotation.y += 360;
+        else if (rotation.y > 360)  rotation.y -= 360;
+        else if (rotation.z < 0)    rotation.z += 360;
+        else if (rotation.z > 360)  rotation.z -= 360;
     }
 }

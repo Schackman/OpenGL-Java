@@ -9,8 +9,6 @@ import com.schackteleers.projectrpg.engine.graphics.Renderer;
 import com.schackteleers.projectrpg.engine.graphics.Texture;
 import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
 import com.schackteleers.projectrpg.engine.input.Keyboard;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +39,7 @@ public class Game implements IGameLogic {
     Game() {
         this.keyboard = new Keyboard();
         this.renderer = new Renderer();
-        this.camera = new Camera();
+        this.camera = new Camera(7f, 6, 7, 38, 317, 0);
         this.gameObjectList = new ArrayList<>();
         this.pointLightList = new ArrayList<>();
     }
@@ -76,7 +74,7 @@ public class Game implements IGameLogic {
 
     @Override
     public void update(double interval) {
-        camera.movePosition(moveCameraX, moveCameraY, moveCameraZ);
+        camera.move(moveCameraX, moveCameraY, moveCameraZ);
         camera.rotate(rotCameraX, rotCameraY, rotCameraZ);
         renderer.addAmbientLight(ambientLightChange);
     }
