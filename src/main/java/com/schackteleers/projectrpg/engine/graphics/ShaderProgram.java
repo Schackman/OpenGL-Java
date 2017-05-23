@@ -94,6 +94,12 @@ class ShaderProgram {
         uniforms.put(uniformName, uniformLocation);
     }
 
+    void createMaterialUniform(String uniformName) throws Exception {
+        createUniform(uniformName + ".color");
+        createUniform(uniformName + ".isTextured");
+        createUniform(uniformName + ".reflectance");
+    }
+
     private void createPointLightUniform(String uniformName) throws Exception {
         createUniform(uniformName + ".color");
         createUniform(uniformName + ".position");
@@ -115,25 +121,31 @@ class ShaderProgram {
         glUniformMatrix4fv(uniforms.get(uniformName), false, fb);
     }
 
-    void setUniform(String uniformName, int value){
+    void setUniform(String uniformName, int value) {
         glUniform1i(uniforms.get(uniformName), value);
     }
 
-    void setUniform(String uniformName, Vector3f value){
+    void setUniform(String uniformName, Vector3f value) {
         glUniform3f(uniforms.get(uniformName), value.x, value.y, value.z);
     }
 
-    void setUniform(String uniformName, PointLight[] pointLights){
+    void setUniform(String uniformName, PointLight[] pointLights) {
         for (int i = 0; i < pointLights.length; i++) {
             setUniform(uniformName + "[" + i + "]", pointLights[i]);
         }
     }
 
-    void setUniform(String uniformName, PointLight pointLight, int position){
+    void setUniform(String uniformName, Material material) {
+        setUniform(uniformName + ".color", material.getColor());
+        setUniform(uniformName + ".isTextured", (material.isTextured() ? 1 : 0));
+        setUniform(uniformName + ".reflectance", material.getReflectance());
+    }
+
+    void setUniform(String uniformName, PointLight pointLight, int position) {
         setUniform(uniformName + "[" + position + "]", pointLight);
     }
 
-    void setUniform(String uniformName, PointLight pointLight) {
+    private void setUniform(String uniformName, PointLight pointLight) {
         setUniform(uniformName + ".color", pointLight.getColor());
         setUniform(uniformName + ".position", pointLight.getPosition());
         setUniform(uniformName + ".intensity", pointLight.getIntensity());
@@ -148,7 +160,7 @@ class ShaderProgram {
         glUniform2f(uniforms.get(uniformName), value.x, value.y);
     }
 
-    private void setUniform(String uniformName, float value) {
+    void setUniform(String uniformName, float value) {
         glUniform1f(uniforms.get(uniformName), value);
     }
 

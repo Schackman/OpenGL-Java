@@ -2,11 +2,9 @@ package com.schackteleers.projectrpg.game;
 
 import com.schackteleers.projectrpg.engine.core.IGameLogic;
 import com.schackteleers.projectrpg.engine.core.Window;
+import com.schackteleers.projectrpg.engine.fileio.OBJLoader;
 import com.schackteleers.projectrpg.engine.gameobjects.GameObject;
-import com.schackteleers.projectrpg.engine.graphics.Camera;
-import com.schackteleers.projectrpg.engine.graphics.Mesh;
-import com.schackteleers.projectrpg.engine.graphics.Renderer;
-import com.schackteleers.projectrpg.engine.graphics.Texture;
+import com.schackteleers.projectrpg.engine.graphics.*;
 import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
 import com.schackteleers.projectrpg.engine.input.Keyboard;
 import org.joml.Vector3f;
@@ -51,14 +49,15 @@ public class Game implements IGameLogic {
         renderer.init(window);
         renderer.getAmbientLight().set(.1f);
 
+        Mesh cube = OBJLoader.loadMesh("cube").setMaterial(new Material(new Texture("grassblock"), 0));
         final int MAX_X = 10;
         final int MAX_Z = 10;
         for (int x = 0; x < MAX_X; x++) {
             for (int z = 0; z < MAX_Z; z++) {
-                gameObjectList.add(new GameObject(new Mesh(new Texture("grassblock"))).setPosition(x - MAX_X / 2, 0, z - MAX_Z / 2));
+                gameObjectList.add(new GameObject(cube).setPosition(x - MAX_X / 2, 0, z - MAX_Z / 2));
             }
         }
-        gameObjectList.add(new GameObject(new Mesh(new Texture("grassblock"))).setPosition(0, 1, 0));
+        gameObjectList.add(new GameObject(cube).setPosition(0, 1, 0));
         pointLightList.add(new PointLight(new Vector3f(1, 1, 1), new Vector3f(0, 2, 0), .3f));
         System.gc();
     }

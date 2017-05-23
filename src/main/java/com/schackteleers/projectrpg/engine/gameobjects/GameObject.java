@@ -17,10 +17,6 @@ public class GameObject {
     private Vector3f rotation;
     private float scale;
 
-    public GameObject() throws IOException {
-        this(new Mesh());
-    }
-
     public GameObject(Mesh mesh) {
         this.mesh = mesh;
         this.position = new Vector3f();

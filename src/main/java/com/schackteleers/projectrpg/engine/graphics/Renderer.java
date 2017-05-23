@@ -24,14 +24,18 @@ public class Renderer {
     private static final String UNIFORM_TEXTURE_SAMPLER = "texture_sampler";
     private static final String UNIFORM_AMBIENT_LIGHT = "ambient_light";
     private static final String UNIFORM_POINT_LIGHT_LIST = "point_light_list";
+    private static final String UNIFORM_MATERIAL = "material";
+    private static final String UNIFORM_SPECULAR_POWER= "specular_power";
 
     private ShaderProgram shaderProgram;
     private Transformation transformation;
     private Vector3f ambientLight;
+    private float specularPower;
 
     public Renderer() {
         this.transformation = new Transformation();
         this.ambientLight = new Vector3f(.5f, .5f, .5f);
+        this.specularPower = 10f;
     }
 
     public void init(Window window) throws Exception {
@@ -54,6 +58,8 @@ public class Renderer {
         shaderProgram.createUniform(UNIFORM_PROJECTION_MATRIX);
         shaderProgram.createUniform(UNIFORM_MODEL_VIEW_MATRIX);
         shaderProgram.createUniform(UNIFORM_TEXTURE_SAMPLER);
+        shaderProgram.createMaterialUniform(UNIFORM_MATERIAL);
+        shaderProgram.createUniform(UNIFORM_SPECULAR_POWER);
         shaderProgram.createUniform(UNIFORM_AMBIENT_LIGHT);
         shaderProgram.createPointLightListUniform(UNIFORM_POINT_LIGHT_LIST, 32);
     }
@@ -71,6 +77,7 @@ public class Renderer {
         shaderProgram.setUniform(UNIFORM_PROJECTION_MATRIX, transformation.getProjectionMatrix(window.getWidth(), window.getHeight(), window.getDpi())); // Update projection matrix
         shaderProgram.setUniform(UNIFORM_TEXTURE_SAMPLER, 0);
         shaderProgram.setUniform(UNIFORM_AMBIENT_LIGHT, ambientLight);
+        shaderProgram.setUniform(UNIFORM_SPECULAR_POWER, specularPower);
 
         Matrix4f viewMatrix = transformation.getViewMatrix(camera); // Update view matrix
 
@@ -89,6 +96,7 @@ public class Renderer {
         // Render all game objects
         for (GameObject gameObject : gameObjectList) {
             Mesh mesh = gameObject.getMesh();
+            shaderProgram.setUniform(UNIFORM_MATERIAL, mesh.getMaterial());
             // set modelview matrix for this gameobjects
             shaderProgram.setUniform(UNIFORM_MODEL_VIEW_MATRIX, transformation.getModelViewMatrix(gameObject, viewMatrix));
             mesh.render();
