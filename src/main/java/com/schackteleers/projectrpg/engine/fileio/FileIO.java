@@ -1,12 +1,18 @@
 package com.schackteleers.projectrpg.engine.fileio;
 
+import org.lwjgl.BufferUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 
 /**
  * @author Stijn Schack
@@ -30,5 +36,29 @@ public class FileIO {
             }
         }
         return list;
+    }
+
+    public static ByteBuffer loadResourceToByteBuffer(String fileName, int bufferSize) throws IOException {
+        long startTime = System.nanoTime();
+        ByteBuffer buffer;
+        try (InputStream in = FileIO.class.getResourceAsStream(fileName); ReadableByteChannel byteChannel = Channels.newChannel(in)) {
+            buffer = BufferUtils.createByteBuffer(bufferSize);
+            while (true){
+                int bytes=byteChannel.read(buffer);
+                if (bytes==-1) break;
+                if (buffer.remaining()==0) buffer=resizeBuffer(buffer, buffer.capacity()*2);
+            }
+        }
+        buffer.flip();
+        long totalTime = System.nanoTime()-startTime;
+        System.out.println(fileName + " loaded to ByteBuffer in " + totalTime + "ns");
+        return buffer;
+    }
+
+    private static ByteBuffer resizeBuffer(ByteBuffer buffer, int newCapacity) {
+        ByteBuffer newBuffer = BufferUtils.createByteBuffer(newCapacity);
+        buffer.flip();
+        newBuffer.put(buffer);
+        return newBuffer;
     }
 }

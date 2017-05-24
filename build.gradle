@@ -47,6 +47,5 @@ dependencies {
 	runtime "org.lwjgl:lwjgl-par:${lwjglVersion}:${lwjglNatives}"
 	runtime "org.lwjgl:lwjgl-stb:${lwjglVersion}:${lwjglNatives}"
 	compile "org.joml:joml:${jomlVersion}"
-	compile group: 'org.l33tlabs.twl', name: 'pngdecoder', version: '1.0'
 	compile group: 'org.ini4j', name: 'ini4j', version: '0.5.1'
 }
