@@ -2,7 +2,6 @@ package com.schackteleers.projectrpg.game.scene;
 
 import com.schackteleers.projectrpg.engine.fileio.OBJLoader;
 import com.schackteleers.projectrpg.engine.gameobjects.GameObject;
-import com.schackteleers.projectrpg.engine.graphics.Camera;
 import com.schackteleers.projectrpg.engine.graphics.Material;
 import com.schackteleers.projectrpg.engine.graphics.Mesh;
 import com.schackteleers.projectrpg.engine.graphics.Texture;
@@ -10,9 +9,6 @@ import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
 import com.schackteleers.projectrpg.engine.input.Keyboard;
 import com.schackteleers.projectrpg.engine.scene.Scene;
 import org.joml.Vector3f;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 

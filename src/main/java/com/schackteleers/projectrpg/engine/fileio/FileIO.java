@@ -43,14 +43,14 @@ public class FileIO {
         ByteBuffer buffer;
         try (InputStream in = FileIO.class.getResourceAsStream(fileName); ReadableByteChannel byteChannel = Channels.newChannel(in)) {
             buffer = BufferUtils.createByteBuffer(bufferSize);
-            while (true){
-                int bytes=byteChannel.read(buffer);
-                if (bytes==-1) break;
-                if (buffer.remaining()==0) buffer=resizeBuffer(buffer, buffer.capacity()*2);
+            while (true) {
+                int bytes = byteChannel.read(buffer);
+                if (bytes == -1) break;
+                if (buffer.remaining() == 0) buffer = resizeBuffer(buffer, buffer.capacity() * 2);
             }
         }
         buffer.flip();
-        long totalTime = System.nanoTime()-startTime;
+        long totalTime = System.nanoTime() - startTime;
         System.out.println(fileName + " loaded to ByteBuffer in " + totalTime + "ns");
         return buffer;
     }

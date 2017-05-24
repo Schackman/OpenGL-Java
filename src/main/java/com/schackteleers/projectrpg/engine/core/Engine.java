@@ -7,13 +7,8 @@ package com.schackteleers.projectrpg.engine.core;
 
 import com.schackteleers.projectrpg.engine.fileio.ConfigFile;
 import org.ini4j.Ini;
-import org.ini4j.Profile;
 
 import java.io.IOException;
-import java.lang.management.GarbageCollectorMXBean;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.*;
 

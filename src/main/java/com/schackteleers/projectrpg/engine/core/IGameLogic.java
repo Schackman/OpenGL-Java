@@ -2,6 +2,7 @@ package com.schackteleers.projectrpg.engine.core;
 
 /**
  * Interface for the main Game class.
+ *
  * @author Stijn Schack
  * @since 21/04/2017
  */

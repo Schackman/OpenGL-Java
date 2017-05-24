@@ -20,7 +20,7 @@ class Transformation {
     }
 
     Matrix4f getProjectionMatrix(int width, int height, double dpi) {
-        return projectionMatrix.setPerspective((float) Math.toRadians(60), (float)width/height, 0.001f, 1000);
+        return projectionMatrix.setPerspective((float) Math.toRadians(60), (float) width / height, 0.001f, 1000);
     }
 
     final Matrix4f getViewMatrix(Camera camera) {

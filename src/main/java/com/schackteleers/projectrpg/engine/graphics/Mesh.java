@@ -2,7 +2,6 @@ package com.schackteleers.projectrpg.engine.graphics;
 
 import org.lwjgl.system.MemoryUtil;
 
-import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;

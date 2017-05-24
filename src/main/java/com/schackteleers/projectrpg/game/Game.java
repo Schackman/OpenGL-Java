@@ -2,19 +2,12 @@ package com.schackteleers.projectrpg.game;
 
 import com.schackteleers.projectrpg.engine.core.IGameLogic;
 import com.schackteleers.projectrpg.engine.core.Window;
-import com.schackteleers.projectrpg.engine.fileio.OBJLoader;
-import com.schackteleers.projectrpg.engine.gameobjects.GameObject;
-import com.schackteleers.projectrpg.engine.graphics.*;
-import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
+import com.schackteleers.projectrpg.engine.graphics.Renderer;
 import com.schackteleers.projectrpg.engine.input.Keyboard;
-import com.schackteleers.projectrpg.engine.scene.Scene;
 import com.schackteleers.projectrpg.game.scene.GameScene;
-import org.joml.Vector3f;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 
 /**
  * @author Stijn Schack

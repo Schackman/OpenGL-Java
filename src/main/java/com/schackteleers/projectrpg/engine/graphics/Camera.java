@@ -55,11 +55,11 @@ public class Camera {
 
     public void rotate(float rotX, float rotY, float rotZ) {
         this.rotation.add(rotX, rotY, rotZ);
-        if      (rotation.x < 0)    rotation.x += 360;
-        else if (rotation.x > 360)  rotation.x -= 360;
-        if      (rotation.y < 0)    rotation.y += 360;
-        else if (rotation.y > 360)  rotation.y -= 360;
-        else if (rotation.z < 0)    rotation.z += 360;
-        else if (rotation.z > 360)  rotation.z -= 360;
+        if (rotation.x < 0) rotation.x += 360;
+        else if (rotation.x > 360) rotation.x -= 360;
+        if (rotation.y < 0) rotation.y += 360;
+        else if (rotation.y > 360) rotation.y -= 360;
+        else if (rotation.z < 0) rotation.z += 360;
+        else if (rotation.z > 360) rotation.z -= 360;
     }
 }

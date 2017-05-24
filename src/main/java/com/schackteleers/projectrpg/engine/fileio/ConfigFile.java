@@ -40,7 +40,7 @@ public class ConfigFile {
         ini.put(section, key, value);
     }
 
-    public String get(String section, String key){
+    public String get(String section, String key) {
         return ini.get(section, key);
     }
 
@@ -52,7 +52,7 @@ public class ConfigFile {
         isReadOnly = file.setReadOnly();
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return ini.isEmpty();
     }
 

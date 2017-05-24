@@ -9,9 +9,6 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
-
-import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -26,7 +23,7 @@ public class Renderer {
     private static final String UNIFORM_AMBIENT_LIGHT = "ambient_light";
     private static final String UNIFORM_POINT_LIGHT_LIST = "point_light_list";
     private static final String UNIFORM_MATERIAL = "material";
-    private static final String UNIFORM_SPECULAR_POWER= "specular_power";
+    private static final String UNIFORM_SPECULAR_POWER = "specular_power";
 
     private ShaderProgram shaderProgram;
     private Transformation transformation;

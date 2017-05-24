@@ -3,8 +3,6 @@ package com.schackteleers.projectrpg.engine.gameobjects;
 import com.schackteleers.projectrpg.engine.graphics.Mesh;
 import org.joml.Vector3f;
 
-import java.io.IOException;
-
 /**
  * Contains a Mesh and transformation(position, rotation, scale)
  *
@@ -39,7 +37,7 @@ public class GameObject {
         return this;
     }
 
-    public GameObject scale(float scale){
+    public GameObject scale(float scale) {
         this.scale += scale;
         return this;
     }
@@ -60,7 +58,7 @@ public class GameObject {
         return scale;
     }
 
-    public void cleanUp(){
+    public void cleanUp() {
         mesh.cleanUp();
     }
 }

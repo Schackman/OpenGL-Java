@@ -63,7 +63,7 @@ class Timer {
      * Used to count when 1 second has passed. Also stores fps and ups
      */
     void update() {
-        if (this.timeCount > 1f){
+        if (this.timeCount > 1f) {
             fps = fpsCount;
             fpsCount = 0;
 
