@@ -18,7 +18,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 /**
  * Basic 2D Mesh class.
- * contains core data and functionality to render any 2D shape from triangles
+ * contains core data and functionality to renderHud any 2D shape from triangles
  *
  * @author Stijn Schack
  * @since 25/04/2017

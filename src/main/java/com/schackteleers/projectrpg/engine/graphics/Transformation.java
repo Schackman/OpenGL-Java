@@ -29,7 +29,8 @@ class Transformation {
 
         viewMatrix.identity();
         viewMatrix.rotate((float) Math.toRadians(camRot.x), new Vector3f(1, 0, 0))
-                .rotate((float) Math.toRadians(camRot.y), new Vector3f(0, 1, 0));
+                .rotate((float) Math.toRadians(camRot.y), new Vector3f(0, 1, 0))
+                .rotate((float) Math.toRadians(camRot.z), new Vector3f(0, 0, 1));
         viewMatrix.translate(-camPos.x, -camPos.y, -camPos.z);
         return viewMatrix;
     }

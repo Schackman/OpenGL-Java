@@ -4,6 +4,7 @@ import com.schackteleers.projectrpg.engine.core.Window;
 import com.schackteleers.projectrpg.engine.fileio.FileIO;
 import com.schackteleers.projectrpg.engine.gameobjects.GameObject;
 import com.schackteleers.projectrpg.engine.graphics.light.PointLight;
+import com.schackteleers.projectrpg.engine.scene.Scene;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -64,7 +65,7 @@ public class Renderer {
         shaderProgram.createPointLightListUniform(UNIFORM_POINT_LIGHT_LIST, 32);
     }
 
-    public void render(Window window, Camera camera, List<GameObject> gameObjectList, List<PointLight> pointLightList) {
+    public void render(Window window, Scene scene) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clear the frame buffer so a new frame can be rendered
 
         if (window.isResized()) {
@@ -79,11 +80,11 @@ public class Renderer {
         shaderProgram.setUniform(UNIFORM_AMBIENT_LIGHT, ambientLight);
         shaderProgram.setUniform(UNIFORM_SPECULAR_POWER, specularPower);
 
-        Matrix4f viewMatrix = transformation.getViewMatrix(camera); // Update view matrix
+        Matrix4f viewMatrix = transformation.getViewMatrix(scene.getCamera()); // Update view matrix
 
         // Render PointLights
-        for (int i = 0; i < pointLightList.size(); i++) {
-            PointLight currPointLight = new PointLight(pointLightList.get(i));
+        for (int i = 0; i < scene.getPointLightList().size(); i++) {
+            PointLight currPointLight = new PointLight(scene.getPointLightList().get(i));
             Vector3f lightPos = currPointLight.getPosition();
             Vector4f aux = new Vector4f(lightPos, 1);
             aux.mul(viewMatrix);
@@ -94,7 +95,7 @@ public class Renderer {
         }
 
         // Render all game objects
-        for (GameObject gameObject : gameObjectList) {
+        for (GameObject gameObject : scene.getGameObjectList()) {
             Mesh mesh = gameObject.getMesh();
             shaderProgram.setUniform(UNIFORM_MATERIAL, mesh.getMaterial());
             // set modelview matrix for this gameobjects
