@@ -14,7 +14,7 @@ import java.util.List;
 public class OBJLoader {
 
     public static Mesh loadMesh(String fileName) throws Exception {
-        fileName = "/obj/" + fileName + ".obj";
+        fileName = "/models/" + fileName + ".obj";
         List<String> lines = FileIO.readAllLines(fileName);
 
         List<Vector3f> vertices = new ArrayList<>();
@@ -110,14 +110,14 @@ public class OBJLoader {
         }
     }
 
-    protected static class Face {
+    static class Face {
 
         /**
          * List of idxGroup groups for a face triangle (3 vertices per face).
          */
         private IdxGroup[] idxGroups = new IdxGroup[3];
 
-        public Face(String v1, String v2, String v3) {
+        Face(String v1, String v2, String v3) {
             idxGroups = new IdxGroup[3];
             // Parse the lines
             idxGroups[0] = parseLine(v1);
@@ -132,7 +132,7 @@ public class OBJLoader {
             int length = lineTokens.length;
             idxGroup.idxPos = Integer.parseInt(lineTokens[0]) - 1;
             if (length > 1) {
-                // It can be empty if the obj does not define text coords
+                // It can be empty if the models does not define text coords
                 String textCoord = lineTokens[1];
                 idxGroup.idxTextCoord = textCoord.length() > 0 ? Integer.parseInt(textCoord) - 1 : IdxGroup.NO_VALUE;
                 if (length > 2) {
@@ -143,22 +143,22 @@ public class OBJLoader {
             return idxGroup;
         }
 
-        public IdxGroup[] getFaceVertexIndices() {
+        IdxGroup[] getFaceVertexIndices() {
             return idxGroups;
         }
     }
 
-    protected static class IdxGroup {
+    static class IdxGroup {
 
-        public static final int NO_VALUE = -1;
+        static final int NO_VALUE = -1;
 
-        public int idxPos;
+        int idxPos;
 
-        public int idxTextCoord;
+        int idxTextCoord;
 
-        public int idxVecNormal;
+        int idxVecNormal;
 
-        public IdxGroup() {
+        IdxGroup() {
             idxPos = NO_VALUE;
             idxTextCoord = NO_VALUE;
             idxVecNormal = NO_VALUE;
